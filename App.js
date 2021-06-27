@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import MyDrawer from './routes/MyStack';
 //import { StyleSheet, Text, View } from 'react-native';
 import MyStack from './routes/MyStack';
 
@@ -11,7 +12,7 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     <NavigationContainer>
-      <MyStack />
+      <MyDrawer />
     </NavigationContainer>
 
   );
