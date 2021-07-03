@@ -1,3 +1,13 @@
 import React, {useState} from 'react'
-const CalenderScreen= null;
+import { View, Text, StyleSheet } from 'react-native';
+const CalenderScreen = props => {
+    return(
+        <View>
+            <Text>Calender</Text>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({});
+
 export default CalenderScreen;

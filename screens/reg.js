@@ -1,115 +1,39 @@
-import React, {useState, useEffect, useCallback, useReducer} from 'react'
-import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, StyleSheet, Alert } from 'react-native';
-import { useSelector, useDispatch, Provider } from 'react-redux';
-import { combineReducers, createStore } from 'redux';
+import React, {useState} from 'react'
+import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, StyleSheet } from 'react-native';
 
 import InputCustom from '../components/InputCustom';
-import * as userActions from '../store/actions/user';
-import user from '../store/reducers/user';
-
-const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
-
-const formReducer = (state, action) => {
-    if (actin.type === FORM_INPUT_UPDATE) {
-        
-    }
-};
-
-const AppWrapper = () => {
-    const rootReducer = combineReducers({
-        content: user
-    });
-
-    const store = createStore(rootReducer);
-
-    return (
-        <Provider store={store}>
-            <RegisterScreen />
-        </Provider>
-    )
-}
 
 const RegisterScreen = ({navigation}) => {
 
     const pressHandler = () => {
-        props.push("LoginScreen")
+        navigation.push("LoginScreen")
     }
-    const dispatch = useDispatch();
 
-    const [formState, dispatchFormState] = useReducer(formReducer, {
-        inputValues: {
-            userName: '', telNo: '', email: '', date: '', income: '', password: ''
-        }, 
-        inputValidities: {
-            userName: false, telNo: false, email: false, date: false, income: false, password: false
-        }, 
-        formIsValid: false
-    });
-
-    // const [userName, setUserName] = useState('');
-    // const [userNameIsValid, setUserNameIsValid] = useState(false);
-    // const [telNo, setTelNo] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [date, setDate] = useState('');
-    // const [income, setIncome] = useState('');
-    // const [occupation, setOccupation] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [password1, setPassword1] = useState('');
-    // const [error, setError] = useState();
-    // const [loading, setLoading] = useState(false);
-    // const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
-
-    const submitHandler = useCallback(() => {
-        if (!userNameIsValid) {
-            Alert.alert(
-                'Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]
-            );
-            return;
-        }
-        console.log('Submitting');
-    
-        dispatch(
-            userActions.createUser(userName, telNo, date, email, income, password)
-        ); 
-        navigation.goBack();
-    }, [
-        dispatch, userName, telNo, date, email, income, password, userNameIsValid
-    ]);
-
-    useEffect(() => {
-        navigation.setParams({submit: submitHandler})
-    }, [submitHandler]);
-
-    const textChangeHandler = (inputIdentifier, text) => {
-        let isValid = false
-        if (text.trim().length > 0) {
-            isValid = true;
-        } 
-        dispatchFormState({
-            type: FORM_INPUT_UPDATE, value: text, isValid: isValid, input: inputIdentifier
-        });
-    };
+    const [userName, setUserName] = useState('');
+    const [telNo, setTelNo] = useState('');
+    const [email, setEmail] = useState('');
+    const [date, setDate] = useState('');
+    const [income, setIncome] = useState('');
+    const [occupation, setOccupation] = useState('');
+    const [password, setPassword] = useState('');
+    const [password1, setPassword1] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
     return(
-        
         <ScrollView>
-            
             <View style={styles.ContainerForm}>
                 <View style={styles.Container}>
                     <View style={styles.TextContainer}>
-                        <Text style={styles.label}>Name</Text>
+                        <Text>Name</Text>
                     </View>
                     <View style={styles.InputContainer}>
                         <TextInput 
-                        style={styles.input} 
-                        value={userName} 
-                        onChangeText={textChangeHandler.bind(this, 'userName')} 
+                        onChangeText={() => {}} 
                         placeholder="Your Name" 
-                        keyboardType="default"
-                        autoCapitalize='words'
-                        returnKeyType='next'
+                        value="userName" 
+                        style={styles.input} 
                         />
-                        {!userNameIsValid && <Text>Please enter a valid Name</Text>}
                     </View>
                 </View>
                 <View style={styles.Container}>
@@ -118,10 +42,10 @@ const RegisterScreen = ({navigation}) => {
                     </View>
                     <View style={styles.InputContainer}>
                         <TextInput style={styles.TextInput}
-                        style={styles.input} 
-                        value={telNo} 
-                        onChangeText={textChangeHandler.bind(this, 'telNo')} 
+                        onChangeText={() => {}} 
                         placeholder="Phone Number" 
+                        value="telNo" 
+                        style={styles.input} 
                         />
                     </View>
                 </View>
@@ -131,23 +55,23 @@ const RegisterScreen = ({navigation}) => {
                     </View>
                     <View style={styles.InputContainer}>
                         <TextInput 
-                        style={styles.input} 
-                        value={email} 
-                        onChangeText={textChangeHandler.bind(this, 'email')} 
+                        onChangeText={() => {}} 
                         placeholder="Your Email" 
+                        value="email" 
+                        style={styles.input} 
                         />
                     </View>
                 </View>
                 <View style={styles.Container}>
                     <View style={styles.TextContainer}>
-                        <Text>Date of Birth</Text>
+                        <Text>Date</Text>
                     </View>
                     <View style={styles.InputContainer}>
                         <TextInput 
+                        onChangeText={() => {}} 
+                        placeholder="Date of Birth" 
+                        value="date" 
                         style={styles.input} 
-                        value={date} 
-                        onChangeText={textChangeHandler.bind(this, 'date')} 
-                        placeholder="dd/mm/yyyy" 
                         />
                     </View>
                 </View>
@@ -157,10 +81,10 @@ const RegisterScreen = ({navigation}) => {
                     </View>
                     <View style={styles.InputContainer}>
                         <TextInput 
-                        style={styles.input} 
-                        value={income}
-                        onChangeText={textChangeHandler.bind(this, 'income')} 
+                        onChangeText={() => {}} 
                         placeholder="Monthly" 
+                        value="income" 
+                        style={styles.input} 
                         />
                     </View>
                 </View>
@@ -170,10 +94,10 @@ const RegisterScreen = ({navigation}) => {
                     </View>
                     <View style={styles.InputContainer}>
                         <TextInput 
-                        style={styles.input} 
-                        value={password} 
-                        onChangeText={textChangeHandler.bind(this, 'password')} 
+                        onChangeText={() => {}} 
                         placeholder="Password" 
+                        value="password" 
+                        style={styles.input} 
                         />
                     </View>
                 </View>
@@ -183,10 +107,10 @@ const RegisterScreen = ({navigation}) => {
                     </View>
                     <View style={styles.InputContainer}>
                         <TextInput 
-                        style={styles.input} 
-                        value={password1} 
-                        onChangeText={textChangeHandler.bind(this, 'password1')} 
+                        onChangeText={() => {}} 
                         placeholder="Your Names" 
+                        value="password1" 
+                        style={styles.input} 
                         />
                     </View>
                 </View>
@@ -197,11 +121,9 @@ const RegisterScreen = ({navigation}) => {
                         title='Sign Up'
                         //title={isSignup ? 'Login' : 'Sign Up'}
                         //color={Colors.accent}
-                        onPress={//() => { 
-                                submitHandler
+                        onPress={() => {
                         //setIsSignup(prevState => prevState);
-                        //}
-                    }
+                        }}
                     />
                     <View style={styles.space} />
                     <Button 
@@ -217,7 +139,6 @@ const RegisterScreen = ({navigation}) => {
                 </View>
             </View>
         </ScrollView>
-        
     );
 };
 
@@ -236,9 +157,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     TextContainer: {},
-    label: {
-        marginVertical: 8
-    },
     TextInput: {
         color: '#969697'
     },
@@ -266,4 +184,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AppWrapper;
+export default RegisterScreen;

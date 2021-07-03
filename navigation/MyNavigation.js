@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 
 import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
+import AppWrapper from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import AnalysisScreen from '../screens/AnalysisScreen';
 import CalenderScreen from '../screens/CalenderScreen';
@@ -18,11 +18,15 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
+// const navigationOptions = () => {
+
+// }
+
 const AuthStack = () => {
     return (
-        <Stack.Navigator >
+        <Stack.Navigator initialRouteName="LoginScreen">
+            <Stack.Screen name="AppWrapper" component={AppWrapper} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </Stack.Navigator>
     )
@@ -30,7 +34,7 @@ const AuthStack = () => {
 
 const CalenderTab = () => {
     return (
-        <Tab.Navigator >
+        <Tab.Navigator initialRouteName="CalenderScreen">
             <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
             <Stack.Screen name="ExpensesScreen" component={ExpensesScreen} />
             <Stack.Screen name="AddExpensesScreen" component={AddExpensesScreen} />
@@ -41,7 +45,7 @@ const CalenderTab = () => {
 const AnalysisStack = () => {
     return (
         <Stack.Navigator >
-            <Stack.Screen name="AnalysisScreen" component={AnalysisSreen} />
+            <Stack.Screen name="AnalysisScreen" component={AnalysisScreen} />
         </Stack.Navigator>
     )
 };
@@ -72,7 +76,7 @@ const ProfileStack = () => {
 
 const MyDrawer = () => {
     return (
-        <Drawer.Navigator >
+        <Drawer.Navigator initialRouteName="AnalysisStack" >
             <Drawer.Screen name="AuthStack" component={AuthStack} />
             <Drawer.Screen name="CalenderTab" component={CalenderTab} />
             <Drawer.Screen name="AnalysisStack" component={AnalysisStack} />
