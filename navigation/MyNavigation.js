@@ -76,7 +76,7 @@ const ProfileStack = () => {
 
 const MyDrawer = () => {
     return (
-        <Drawer.Navigator initialRouteName="AnalysisStack" >
+        <Drawer.Navigator initialRouteName="AuthStack" >
             <Drawer.Screen name="AuthStack" component={AuthStack} />
             <Drawer.Screen name="CalenderTab" component={CalenderTab} />
             <Drawer.Screen name="AnalysisStack" component={AnalysisStack} />
