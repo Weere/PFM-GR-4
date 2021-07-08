@@ -46,7 +46,7 @@ const LoginScreen = ({navigation}) => {
                     title='Sign Up'
                     //title={isSignup ? 'Login' : 'Sign Up'}
                     //color={Colors.accent}
-                    onPress={()=>navigation.navigate("AppWrapper")
+                    onPress={()=>navigation.navigate("RegisterScreen")
                     //setIsSignup(prevState => prevState);
                     }
                 />

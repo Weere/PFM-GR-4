@@ -39,10 +39,14 @@ const InputCustom = props => {
 
   const textChangeHandler = text => {
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const number = [0-9];
     let isValid = true;
     if (props.required && text.trim().length === 0) {
       isValid = false;
     }
+    // if (props.num && !number.test(text)) {
+    //   isValid = false;
+    // }
     if (props.email && !emailRegex.test(text.toLowerCase())) {
       isValid = false;
     }
@@ -65,41 +69,58 @@ const InputCustom = props => {
   return (
     <View style={styles.formControl}>
       <Text style={styles.label}>{props.label}</Text>
-      <TextInput
-        {...props}
-        style={styles.input}
-        value={inputState.value}
-        onChangeText={textChangeHandler}
-        onBlur={lostFocusHandler}
-      />
+      <View style={styles.control}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            {...props}
+            required
+            style={styles.input}
+            value={inputState.value}
+            onChangeText={textChangeHandler}
+            onBlur={lostFocusHandler}
+          />
+        </View>
       {!inputState.isValid && inputState.touched && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{props.errorText}</Text>
         </View>
       )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   formControl: {
-    width: '100%'
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  control: {
+    flexDirection: 'column'
   },
   label: {
-    fontFamily: 'open-sans-bold',
-    marginVertical: 8
+   // fontFamily: 'open-sans-bold',
+    marginVertical: 10,
+    paddingHorizontal: 20
+  },
+  inputContainer: {
+    marginRight: 20
   },
   input: {
-    paddingHorizontal: 2,
+    paddingHorizontal: 10,
     paddingVertical: 5,
     borderBottomColor: '#ccc',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    width: 150,
+    marginBottom: 10,
+    textAlign: 'center'
   },
   errorContainer: {
     marginVertical: 5
   },
   errorText: {
-    fontFamily: 'open-sans',
+    //fontFamily: 'open-sans',
     color: 'red',
     fontSize: 13
   }

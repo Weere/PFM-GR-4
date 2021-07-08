@@ -1,47 +1,58 @@
 import React, {useState, useEffect, useCallback, useReducer} from 'react'
-import { View, Text, TextInput, Button, ScrollView, KeyboardAvoidingView, StyleSheet, Alert } from 'react-native';
-import { useSelector, useDispatch, Provider } from 'react-redux';
-import { combineReducers, createStore } from 'redux';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { Trial } from './trial';
 import InputCustom from '../components/InputCustom';
 import * as userActions from '../store/actions/user';
-import user from '../store/reducers/user';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
 const formReducer = (state, action) => {
-    if (actin.type === FORM_INPUT_UPDATE) {
-        
+    if (action.type === FORM_INPUT_UPDATE) {
+        const updatedValues = {
+            ...state.inputValues,
+            [action.input]: action.value
+        };
+        const updatedValidities = {
+            ...state.inputValidities,
+            [action.input]: action.isValid
+        };
+        let updatedFormIsValid = true;
+        for (const key in updatedValidities) {
+            updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+        }
+        return {
+            formIsValid: updatedFormIsValid,
+            inputValidities: updatedValidities,
+            inputValues: updatedValues
+        };
     }
+    return state;
 };
-
-const AppWrapper = () => {
-    const rootReducer = combineReducers({
-        content: user
-    });
-
-    const store = createStore(rootReducer);
-
-    return (
-        <Provider store={store}>
-            <RegisterScreen />
-        </Provider>
-    )
-}
 
 const RegisterScreen = ({navigation}) => {
 
-    const pressHandler = () => {
-        props.push("LoginScreen")
-    }
+    //const user = useSelector(state => state.users.availableUsers);
+
     const dispatch = useDispatch();
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
         inputValues: {
-            userName: '', telNo: '', email: '', date: '', income: '', password: ''
+            userName: '', 
+            telNo: '', 
+            email: '', 
+            date: '', 
+            income: '', 
+            password: ''
         }, 
         inputValidities: {
-            userName: false, telNo: false, email: false, date: false, income: false, password: false
+            userName: false, 
+            telNo: false, 
+            email: false, 
+            date: false, 
+            income: false, 
+            password: false
         }, 
         formIsValid: false
     });
@@ -60,7 +71,13 @@ const RegisterScreen = ({navigation}) => {
     // const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
     const submitHandler = useCallback(() => {
-        if (!userNameIsValid) {
+        if (formState.inputValues.password !== formState.inputValues.password1) {
+            Alert.alert(
+                'Password miss match', 'Please check your passwords if they are the same.', [{ text: 'Okay'}]
+            );
+            return;
+        }
+        if (!formState.formIsValid) {
             Alert.alert(
                 'Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]
             );
@@ -69,201 +86,167 @@ const RegisterScreen = ({navigation}) => {
         console.log('Submitting');
     
         dispatch(
-            userActions.createUser(userName, telNo, date, email, income, password)
+            userActions.createUser(
+                formState.inputValues.userName, 
+                formState.inputValues.telNo, 
+                formState.inputValues.date, 
+                formState.inputValues.email, 
+                formState.inputValues.income, 
+                formState.inputValues.password
+            )
         ); 
         navigation.goBack();
-    }, [
-        dispatch, userName, telNo, date, email, income, password, userNameIsValid
-    ]);
+    }, [ dispatch, formState ]
+    );
+
+    // useEffect(() => {
+    //     navigation.setParams({submit: submitHandler})
+    // }, [submitHandler]);
 
     useEffect(() => {
-        navigation.setParams({submit: submitHandler})
+        submit: submitHandler;
     }, [submitHandler]);
 
-    const textChangeHandler = (inputIdentifier, text) => {
-        let isValid = false
-        if (text.trim().length > 0) {
-            isValid = true;
-        } 
+    const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
         dispatchFormState({
-            type: FORM_INPUT_UPDATE, value: text, isValid: isValid, input: inputIdentifier
+            type: FORM_INPUT_UPDATE, 
+            value: inputValue, 
+            isValid: inputValidity, 
+            input: inputIdentifier
         });
-    };
+    }, [dispatchFormState]);
 
     return(
-        
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior="padding"
+            keyboardVerticalOffset={100}
+        >
+
         <ScrollView>
             
-            <View style={styles.ContainerForm}>
-                <View style={styles.Container}>
-                    <View style={styles.TextContainer}>
-                        <Text style={styles.label}>Name</Text>
-                    </View>
-                    <View style={styles.InputContainer}>
-                        <TextInput 
-                        style={styles.input} 
-                        value={userName} 
-                        onChangeText={textChangeHandler.bind(this, 'userName')} 
-                        placeholder="Your Name" 
-                        keyboardType="default"
-                        autoCapitalize='words'
-                        returnKeyType='next'
-                        />
-                        {!userNameIsValid && <Text>Please enter a valid Name</Text>}
-                    </View>
-                </View>
-                <View style={styles.Container}>
-                    <View style={styles.TextContainer}>
-                        <Text>Tel No</Text>
-                    </View>
-                    <View style={styles.InputContainer}>
-                        <TextInput style={styles.TextInput}
-                        style={styles.input} 
-                        value={telNo} 
-                        onChangeText={textChangeHandler.bind(this, 'telNo')} 
-                        placeholder="Phone Number" 
-                        />
-                    </View>
-                </View>
-                <View style={styles.Container}>
-                    <View style={styles.TextContainer}>
-                        <Text>Email</Text>
-                    </View>
-                    <View style={styles.InputContainer}>
-                        <TextInput 
-                        style={styles.input} 
-                        value={email} 
-                        onChangeText={textChangeHandler.bind(this, 'email')} 
-                        placeholder="Your Email" 
-                        />
-                    </View>
-                </View>
-                <View style={styles.Container}>
-                    <View style={styles.TextContainer}>
-                        <Text>Date of Birth</Text>
-                    </View>
-                    <View style={styles.InputContainer}>
-                        <TextInput 
-                        style={styles.input} 
-                        value={date} 
-                        onChangeText={textChangeHandler.bind(this, 'date')} 
-                        placeholder="dd/mm/yyyy" 
-                        />
-                    </View>
-                </View>
-                <View style={styles.Container}>
-                    <View style={styles.TextContainer}>
-                        <Text>Income Range</Text>
-                    </View>
-                    <View style={styles.InputContainer}>
-                        <TextInput 
-                        style={styles.input} 
-                        value={income}
-                        onChangeText={textChangeHandler.bind(this, 'income')} 
-                        placeholder="Monthly" 
-                        />
-                    </View>
-                </View>
-                <View style={styles.Container}>
-                    <View style={styles.TextContainer}>
-                        <Text>Password</Text>
-                    </View>
-                    <View style={styles.InputContainer}>
-                        <TextInput 
-                        style={styles.input} 
-                        value={password} 
-                        onChangeText={textChangeHandler.bind(this, 'password')} 
-                        placeholder="Password" 
-                        />
-                    </View>
-                </View>
-                <View style={styles.Container}>
-                    <View style={styles.TextContainer}>
-                        <Text>Confirm Password</Text>
-                    </View>
-                    <View style={styles.InputContainer}>
-                        <TextInput 
-                        style={styles.input} 
-                        value={password1} 
-                        onChangeText={textChangeHandler.bind(this, 'password1')} 
-                        placeholder="Your Names" 
-                        />
-                    </View>
-                </View>
-                
+            <View style={styles.form}>
+                <InputCustom
+                    id='userName'
+                    label='Name'
+                    errorText='Please enter a valid name!'
+                    placeholder="Your Name" 
+                    keyboardType="default"
+                    autoCapitalize='words'
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    // initialValue=''
+                    // initiallyValid = {false}
+                />
+                <InputCustom
+                    id='telNo'
+                    label='Phone Number'
+                    errorText='Please enter a valid phone number!'
+                    placeholder="256*******" 
+                    keyboardType="decimal-pad"
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    num
+                />
+                <InputCustom
+                    id='email'
+                    label='Email'
+                    errorText='Please enter a valid email!'
+                    placeholder="Your Email" 
+                    keyboardType="email-address"
+                    autoCapitalize='none'
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    email
+                />         
+                {/* <InputCustom
+                    id='date'
+                    label='Date Of Birth'
+                    errorText='Please enter a valid date!'
+                    placeholder="dd/mm/yyyy" 
+                    keyboardType="default"
+                    autoCapitalize='none'
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    editable={false}
+                />  */}
+                <InputCustom
+                    id='income'
+                    label='Income'
+                    errorText='Please enter a valid amount!'
+                    placeholder="Monthly" 
+                    keyboardType="decimal-pad"
+                    autoCapitalize='none'
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    min={0.1}
+                    num
+                />
+                <InputCustom
+                    id='password'
+                    label='Password'
+                    errorText='Please enter a valid password!'
+                    placeholder="Password" 
+                    keyboardType="default"
+                    autoCapitalize='none'
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    secureTextEntry
+                    minLength={4}
+                />
+                <InputCustom
+                    id='password1'
+                    label='Confirm Password'
+                    errorText='Please enter a valid password!'
+                    placeholder="Password" 
+                    keyboardType="default"
+                    autoCapitalize='none'
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    secureTextEntry
+                    minLength={4}
+                />
+                {/* <View style={styles.control}>
+                    <Text>
+                        Date Of Birth
+                    </Text>
+                    <Trial />
+                </View> */}
+                <Trial />
                 <View style={styles.ButtonContainer}>
                     <Button
                         styles={styles.Button}
                         title='Sign Up'
-                        //title={isSignup ? 'Login' : 'Sign Up'}
-                        //color={Colors.accent}
-                        onPress={//() => { 
-                                submitHandler
-                        //setIsSignup(prevState => prevState);
-                        //}
-                    }
+                        onPress={ submitHandler }
                     />
                     <View style={styles.space} />
                     <Button 
                         styles={styles.Button}
-                        title='Login'
-                        //title={isSignup ? 'Login' : 'Sign Up'}
-                        //color={Colors.accent}
-                        onPress={
-                        //setIsSignup(prevState => !prevState);
-                        ()=>navigation.navigate("LoginScreen")
-                        }
+                        title='Switch to Login'
+                        onPress={ ()=>navigation.navigate("LoginScreen") }
                     />
                 </View>
             </View>
         </ScrollView>
-        
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
-    ContainerForm: {
-        flex: 1,
-        margin: 20,
+    form: {
         justifyContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center',
-        backgroundColor: '#3E2B8A'
-    },
-    Container: {
-        flexDirection: 'column',
-        padding: 10,
-        alignItems: 'center'
-    },
-    TextContainer: {},
-    label: {
-        marginVertical: 8
-    },
-    TextInput: {
-        color: '#969697'
-    },
-    InputContainer: {
-        flex: 1,
-        color: 'white',
-        // paddingLeft: 15,
-        // paddingRight: 15,
-        borderWidth: 1,
-        borderRadius: 30,
-        borderColor: '#dadae8',
-    },
-    ButtonContainer: {
-        width: '80%',
-        flex: 1,
-        padding: 20,
-        flexDirection: 'column'
-    },
-    Button: {
-        padding: 10,
-        margin: 10
+        margin: 20
     },
     space: {
-        width: 20
-    }
-});
+        height: 10
+    },
+    control: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        paddingVertical: 5
+    }      
+  });
 
-export default AppWrapper;
+export default RegisterScreen;

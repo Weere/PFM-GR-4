@@ -4,15 +4,16 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 
 import LoginScreen from '../screens/LoginScreen';
-import AppWrapper from '../screens/RegisterScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import AnalysisScreen from '../screens/AnalysisScreen';
 import CalenderScreen from '../screens/CalenderScreen';
 import ExpensesScreen from '../screens/ExpensesScreen';
 import AddExpensesScreen from '../screens/AddExpensesScreen';
-import TransactionScreen from '../screens/TransactionScreen';
+//import TransactionScreen from '../screens/TransactionScreen';
 import NoteBookScreen from '../screens/NoteBookScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import { DrawerContent } from "./DrawerContent";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -25,7 +26,7 @@ const Tab = createBottomTabNavigator();
 const AuthStack = () => {
     return (
         <Stack.Navigator initialRouteName="LoginScreen">
-            <Stack.Screen name="AppWrapper" component={AppWrapper} />
+            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </Stack.Navigator>
@@ -50,13 +51,13 @@ const AnalysisStack = () => {
     )
 };
 
-const TransactionStack = () => {
-    return (
-        <Stack.Navigator >
-            <Stack.Screen name="TransactionScreen" component={TransactionScreen} />
-        </Stack.Navigator>
-    )
-};
+// const TransactionStack = () => {
+//     return (
+//         <Stack.Navigator >
+//             <Stack.Screen name="TransactionScreen" component={TransactionScreen} />
+//         </Stack.Navigator>
+//     )
+// };
 
 const NoteBookStack = () => {
     return (
@@ -76,11 +77,11 @@ const ProfileStack = () => {
 
 const MyDrawer = () => {
     return (
-        <Drawer.Navigator initialRouteName="AuthStack" >
+        <Drawer.Navigator initialRouteName="AuthStack" drawerContent={props => <DrawerContent {...props} />} >
             <Drawer.Screen name="AuthStack" component={AuthStack} />
             <Drawer.Screen name="CalenderTab" component={CalenderTab} />
             <Drawer.Screen name="AnalysisStack" component={AnalysisStack} />
-            <Drawer.Screen name="TransactionStack" component={TransactionStack} />
+            {/* <Drawer.Screen name="TransactionStack" component={TransactionStack} /> */}
             <Drawer.Screen name="NoteBookStack" component={NoteBookStack} />
             <Drawer.Screen name="ProfileStack" component={ProfileStack} />
         </Drawer.Navigator>
