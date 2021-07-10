@@ -10,7 +10,7 @@ import AnalysisScreen from '../screens/AnalysisScreen';
 import CalenderScreen from '../screens/CalenderScreen';
 import ExpensesScreen from '../screens/ExpensesScreen';
 import AddExpensesScreen from '../screens/AddExpensesScreen';
-//import TransactionScreen from '../screens/TransactionScreen';
+import TransactionScreen from '../screens/TransactionScreen';
 import NoteBookScreen from '../screens/NoteBookScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { DrawerContent } from "./DrawerContent";
@@ -51,13 +51,13 @@ const AnalysisStack = () => {
     )
 };
 
-// const TransactionStack = () => {
-//     return (
-//         <Stack.Navigator >
-//             <Stack.Screen name="TransactionScreen" component={TransactionScreen} />
-//         </Stack.Navigator>
-//     )
-// };
+const TransactionStack = () => {
+    return (
+        <Stack.Navigator >
+            <Stack.Screen name="TransactionScreen" component={TransactionScreen} />
+        </Stack.Navigator>
+    )
+};
 
 const NoteBookStack = () => {
     return (
@@ -81,7 +81,7 @@ const MyDrawer = () => {
             <Drawer.Screen name="AuthStack" component={AuthStack} />
             <Drawer.Screen name="CalenderTab" component={CalenderTab} />
             <Drawer.Screen name="AnalysisStack" component={AnalysisStack} />
-            {/* <Drawer.Screen name="TransactionStack" component={TransactionStack} /> */}
+            <Drawer.Screen name="TransactionStack" component={TransactionStack} />
             <Drawer.Screen name="NoteBookStack" component={NoteBookStack} />
             <Drawer.Screen name="ProfileStack" component={ProfileStack} />
         </Drawer.Navigator>

@@ -73,7 +73,6 @@ const InputCustom = props => {
         <View style={styles.inputContainer}>
           <TextInput
             {...props}
-            required
             style={styles.input}
             value={inputState.value}
             onChangeText={textChangeHandler}

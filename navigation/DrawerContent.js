@@ -1,8 +1,17 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch } from 'react-native-paper';
-import { Icon } from 'react-native-vector-icons/MaterialCommunityIcons';
+import { 
+    Avatar, 
+    Title, 
+    Caption, 
+    Paragraph, 
+    Drawer, 
+    Text, 
+    TouchableRipple, 
+    Switch 
+} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Ionicons } from '@expo/vector-icons';
 
 export function DrawerContent(props) {
@@ -30,7 +39,7 @@ export function DrawerContent(props) {
                             </View>
                         </View>
                     </View>
-                    {/* <Drawer.Section style={styles.drawerSection} >
+                    <Drawer.Section style={styles.drawerSection} >
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
@@ -45,7 +54,7 @@ export function DrawerContent(props) {
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
-                                name='calender-outline'
+                                name='bookmark'
                                 color={color}
                                 size={size}
                                 />
@@ -56,7 +65,7 @@ export function DrawerContent(props) {
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
-                                name='settings-outline'
+                                name='book'
                                 color={color}
                                 size={size}
                                 />
@@ -97,22 +106,22 @@ export function DrawerContent(props) {
                             label='Profile'
                             onPress={() => {props.navigation.navigate('ProfileStack')}}
                             />
-                    </Drawer.Section> */}
+                    </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
-            {/* <Drawer.Section style={styles.bottomDrawerSection} >
+            <Drawer.Section style={styles.bottomDrawerSection} >
                 <DrawerItem 
-                    icon={({focused, size}) => (
+                    icon={({color, size}) => (
                         <Icon 
                         name="exit-to-app"
-                        color= {focused ? '#7CC' : '#CCC' }
+                        color= {color}
                         size= {size}
                         />
                     )}
                     label='Sign Out'
-                    onPress={() => {}}
+                    onPress={() => {props.navigation.navigate('LoginScreen')}}
                 />
-            </Drawer.Section> */}
+            </Drawer.Section>
         </View>
     );
 }

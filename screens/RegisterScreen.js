@@ -42,7 +42,7 @@ const RegisterScreen = ({navigation}) => {
             userName: '', 
             telNo: '', 
             email: '', 
-            date: '', 
+            //date: '', 
             income: '', 
             password: ''
         }, 
@@ -50,7 +50,7 @@ const RegisterScreen = ({navigation}) => {
             userName: false, 
             telNo: false, 
             email: false, 
-            date: false, 
+            //date: false, 
             income: false, 
             password: false
         }, 
@@ -71,6 +71,8 @@ const RegisterScreen = ({navigation}) => {
     // const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
     const submitHandler = useCallback(() => {
+        //formState.inputValues.date=navigation.navigate.getParams(dateselected);
+        
         if (formState.inputValues.password !== formState.inputValues.password1) {
             Alert.alert(
                 'Password miss match', 'Please check your passwords if they are the same.', [{ text: 'Okay'}]
@@ -83,7 +85,7 @@ const RegisterScreen = ({navigation}) => {
             );
             return;
         }
-        console.log('Submitting');
+        console.log(formState);
     
         dispatch(
             userActions.createUser(
@@ -103,9 +105,9 @@ const RegisterScreen = ({navigation}) => {
     //     navigation.setParams({submit: submitHandler})
     // }, [submitHandler]);
 
-    useEffect(() => {
-        submit: submitHandler;
-    }, [submitHandler]);
+    // useEffect(() => {
+    //     submit: submitHandler;
+    // }, [submitHandler]);
 
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
         dispatchFormState({
@@ -120,7 +122,7 @@ const RegisterScreen = ({navigation}) => {
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior="padding"
-            keyboardVerticalOffset={100}
+            keyboardVerticalOffset={50}
         >
 
         <ScrollView>
@@ -135,7 +137,8 @@ const RegisterScreen = ({navigation}) => {
                     autoCapitalize='words'
                     returnKeyType='next'
                     onInputChange={inputChangeHandler}
-                    // initialValue=''
+                    initialValue=''
+                    required
                     // initiallyValid = {false}
                 />
                 <InputCustom
@@ -147,6 +150,8 @@ const RegisterScreen = ({navigation}) => {
                     returnKeyType='next'
                     onInputChange={inputChangeHandler}
                     num
+                    initialValue=''
+                    required
                 />
                 <InputCustom
                     id='email'
@@ -158,6 +163,8 @@ const RegisterScreen = ({navigation}) => {
                     returnKeyType='next'
                     onInputChange={inputChangeHandler}
                     email
+                    initialValue=''
+                    required
                 />         
                 {/* <InputCustom
                     id='date'
@@ -169,6 +176,8 @@ const RegisterScreen = ({navigation}) => {
                     returnKeyType='next'
                     onInputChange={inputChangeHandler}
                     editable={false}
+                    initialValue=''
+                    required
                 />  */}
                 <InputCustom
                     id='income'
@@ -181,6 +190,8 @@ const RegisterScreen = ({navigation}) => {
                     onInputChange={inputChangeHandler}
                     min={0.1}
                     num
+                    initialValue=''
+                    required
                 />
                 <InputCustom
                     id='password'
@@ -193,6 +204,8 @@ const RegisterScreen = ({navigation}) => {
                     onInputChange={inputChangeHandler}
                     secureTextEntry
                     minLength={4}
+                    initialValue=''
+                    required
                 />
                 <InputCustom
                     id='password1'
@@ -205,6 +218,8 @@ const RegisterScreen = ({navigation}) => {
                     onInputChange={inputChangeHandler}
                     secureTextEntry
                     minLength={4}
+                    initialValue=''
+                    required
                 />
                 {/* <View style={styles.control}>
                     <Text>
