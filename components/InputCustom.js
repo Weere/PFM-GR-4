@@ -91,7 +91,7 @@ const InputCustom = props => {
 
 const styles = StyleSheet.create({
   formControl: {
-    width: '100%',
+    //width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    //paddingVertical: 0,
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
     width: 150,

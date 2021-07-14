@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Button, Text, Platform, TouchableOpacity, StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export const Trial = () => {
+const Trial = props => {
   const [date, setDate] = useState(new Date(2000, 0, 1));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -23,7 +23,7 @@ export const Trial = () => {
     showMode('date');
   };
 
-const dateselected = date ? date.toString() : ''; 
+  const dateselected = date ? date.toString() : ''; 
   return (
     <View>
       <View style={styles.control}>
@@ -62,4 +62,7 @@ selectText: {
     color: 'blue'
 }
 });
+
+//export {dateselected};
+export default Trial;
 //npm install @react-native-community/datetimepicker --save

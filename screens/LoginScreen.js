@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback, useReducer} from 'react'
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, KeyboardAvoidingView, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import InputCustom from '../components/InputCustom';
@@ -93,7 +93,7 @@ const LoginScreen = ({navigation}) => {
     }, [dispatchFormState]);
 
     return(
-        <ScrollView>
+        <View style={styles.container}>
             <View style={styles.form}>
                 <InputCustom
                     id='email'
@@ -132,15 +132,31 @@ const LoginScreen = ({navigation}) => {
                     />
                 </View>
             </View>
-        </ScrollView>  
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    form: {
+    container: {
         flex: 1,
-        margin: 20,
-        paddingTop: 80
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 40
+    },
+    form: {
+        //flex: 1,
+        // margin: 20,
+        // paddingTop: 80,
+        padding: 20,
+
+        shadowColor: 'black',
+        shadowOpacity: 0.26,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 8,
+        elevation: 5,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        //width: '90%',
     },
     space: {
         height: 10
