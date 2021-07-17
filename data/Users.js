@@ -7,6 +7,7 @@ const USERS = [
         '0777',
         'wray@dray',
         100,
+        'CEO',
         'wray'
     )
     // new User(

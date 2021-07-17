@@ -75,14 +75,6 @@ const LoginScreen = ({navigation}) => {
     }, [ dispatch, formState ]
     );
 
-    // useEffect(() => {
-    //     navigation.setParams({submit: submitHandler})
-    // }, [submitHandler]);
-
-    // useEffect(() => {
-    //     submit: submitHandler;
-    // }, [submitHandler]);
-
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
         dispatchFormState({
             type: FORM_INPUT_UPDATE, 

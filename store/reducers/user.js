@@ -15,6 +15,7 @@ export default (state = initialState, action) => {
                 action.userData.telNo, 
                 action.userData.email, 
                 action.userData.income, 
+                action.userData.occupation,
                 action.userData.password  
             );  
             return {

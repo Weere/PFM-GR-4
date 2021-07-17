@@ -12,6 +12,7 @@ const Trial = props => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    
   };
 
   const showMode = (currentMode) => {
@@ -22,12 +23,13 @@ const Trial = props => {
   const showDatepicker = () => {
     showMode('date');
   };
+ 
+  const dateselected = date ? date.toString() : '';
 
-  const dateselected = date ? date.toString() : ''; 
   return (
     <View>
       <View style={styles.control}>
-        <Text>Date Of Birth</Text>
+        <Text>Date Of Birth:</Text>
         <TouchableOpacity onPress={showDatepicker}>
             <Text style={styles.selectText}>Click to select date</Text>
         </TouchableOpacity>

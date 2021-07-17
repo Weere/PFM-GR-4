@@ -47,6 +47,7 @@ const RegisterScreen = ({navigation}) => {
             email: '', 
             date: Trial.dateselected,
             income: '', 
+            occupation: '',
             password: ''
         }, 
         inputValidities: {
@@ -55,6 +56,7 @@ const RegisterScreen = ({navigation}) => {
             email: false, 
             //date: false, 
             income: false, 
+            occupation: false,
             password: false
         }, 
         formIsValid: false
@@ -81,7 +83,8 @@ const RegisterScreen = ({navigation}) => {
                 formState.inputValues.telNo, 
                 formState.inputValues.date, 
                 formState.inputValues.email, 
-                formState.inputValues.income, 
+                formState.inputValues.income,
+                formState.inputValues.occupation, 
                 formState.inputValues.password
             )
         ); 
@@ -99,18 +102,15 @@ const RegisterScreen = ({navigation}) => {
     }, [dispatchFormState]);
 
     return(
-        <KeyboardAvoidingView
-            style={{ flex: 1, justifyContent: 'center', margin: 20 }}
-            behavior="padding"
-            keyboardVerticalOffset={50}
-        >
-            
-                
-                <View style={styles.form}>
-                <ScrollView>
+        <View style={{ flex: 1 }}>
+               
+        <View style={styles.container}>
+            <View style={styles.form}>
+        <ScrollView><KeyboardAvoidingView behavior="padding"
+            keyboardVerticalOffset={100}>
                     <InputCustom
                         id='userName'
-                        label='Name'
+                        label='Name:'
                         errorText='Please enter a valid name!'
                         placeholder="Your Name" 
                         keyboardType="default"
@@ -123,7 +123,7 @@ const RegisterScreen = ({navigation}) => {
                     />
                     <InputCustom
                         id='telNo'
-                        label='Phone Number'
+                        label='Phone Number:'
                         errorText='Please enter a valid phone number!'
                         placeholder="256*******" 
                         keyboardType="decimal-pad"
@@ -135,7 +135,7 @@ const RegisterScreen = ({navigation}) => {
                     />
                     <InputCustom
                         id='email'
-                        label='Email'
+                        label='Email:'
                         errorText='Please enter a valid email!'
                         placeholder="Your Email" 
                         keyboardType="email-address"
@@ -148,7 +148,7 @@ const RegisterScreen = ({navigation}) => {
                     />         
                     {/* <InputCustom
                         id='date'
-                        label='Date Of Birth'
+                        label='Date Of Birth:'
                         errorText='Please enter a valid date!'
                         placeholder="dd/mm/yyyy" 
                         keyboardType="default"
@@ -161,7 +161,7 @@ const RegisterScreen = ({navigation}) => {
                     />  */}
                     <InputCustom
                         id='income'
-                        label='Income'
+                        label='Income:'
                         errorText='Please enter a valid amount!'
                         placeholder="Monthly" 
                         keyboardType="decimal-pad"
@@ -174,8 +174,21 @@ const RegisterScreen = ({navigation}) => {
                         required
                     />
                     <InputCustom
+                        id='occupation'
+                        label='Occupation:'
+                        errorText='Please enter a valid occupation!'
+                        placeholder="Your occupation" 
+                        keyboardType="default"
+                        autoCapitalize='words'
+                        returnKeyType='next'
+                        onInputChange={inputChangeHandler}
+                        initialValue=''
+                        required
+                        // initiallyValid = {false}
+                    />
+                    <InputCustom
                         id='password'
-                        label='Password'
+                        label='Password:'
                         errorText='Please enter a valid password!'
                         placeholder="Password" 
                         keyboardType="default"
@@ -189,7 +202,7 @@ const RegisterScreen = ({navigation}) => {
                     />
                     <InputCustom
                         id='password1'
-                        label='Confirm Password'
+                        label='Confirm Password:'
                         errorText='Please enter a valid password!'
                         placeholder="Password" 
                         keyboardType="default"
@@ -200,8 +213,9 @@ const RegisterScreen = ({navigation}) => {
                         minLength={4}
                         initialValue=''
                         required
-                    />
+                    /></KeyboardAvoidingView>
                     <Trial />
+                    </ScrollView>
                     <View style={styles.ButtonContainer}>
                         <Button
                             styles={styles.Button}
@@ -215,19 +229,25 @@ const RegisterScreen = ({navigation}) => {
                             onPress={ ()=>navigation.navigate("LoginScreen") }
                         />
                     </View>
-                    </ScrollView>
-                </View>
-           
-        </KeyboardAvoidingView>
+            </View>
+            </View>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: { 
+         flex: 1, 
+        justifyContent: 'center', 
+         alignItems: 'center',
+         margin: 10 
+    },
     form: {
-        justifyContent: 'center',
+       // justifyContent: 'center',
         //margin: 20,
-
-        padding: 20,
+        marginHorizontal: 5,
+        padding: 10,
+        paddingBottom: 20,
 
         shadowColor: 'black',
         shadowOpacity: 0.26,
@@ -240,13 +260,13 @@ const styles = StyleSheet.create({
     space: {
         height: 10
     },
-    control: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        paddingBottom: 20,
-        paddingVertical: 5
-    }      
+    // control: {
+    //     flexDirection: 'row',
+    //     justifyContent: 'space-between',
+    //     paddingHorizontal: 20,
+    //     paddingBottom: 20,
+    //     paddingVertical: 5
+    // }      
   });
 
 export default RegisterScreen;

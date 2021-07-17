@@ -5,36 +5,43 @@ const HomeScreen = props => {
     const pieData = [
         {
             name: 'Shopping',
-            population: '5000',
+            population: 200,
             color: 'rgba(131, 167, 234, 1)',
             legendFontColor: '#7F7F7F',
             legendFontSize: 15
         },
         {
+            name: 'Savings',
+            population: 90,
+            color: 'yellow',
+            legendFontColor: '#7F7F7F',
+            legendFontSize: 15
+        },
+        {
             name: 'Bills',
-            population: '8000',
+            population: 120,
             color: '#F00',
             legendFontColor: '#7F7F7F',
             legendFontSize: 15
         },
         {
             name: 'Transport',
-            population: '2000',
-            color: 'red',
+            population: 80,
+            color: 'blue',
             legendFontColor: '#7F7F7F',
             legendFontSize: 15
         },
         {
             name: 'Others',
-            population: '800',
-            color: '#FFFFFF',
+            population: 200,
+            color: 'purple',
             legendFontColor: '#7F7F7F',
             legendFontSize: 15
         },
         {
             name: 'Remaining',
-            population: '2000',
-            color: 'rgba(0, 0, 255)',
+            population: 310,
+            color: 'green',
             legendFontColor: '#7F7F7F',
             legendFontSize: 15
         },
@@ -43,7 +50,7 @@ const HomeScreen = props => {
     return(
         <View style={styles.container}>
             <View style={styles.inspiration}>
-                <Text>Your Inspirations</Text>
+                <Text>Inspirational messages</Text>
             </View>
             <View style={styles.fields}>
                 <Text style={styles.title}>Hey Wray Dray,</Text>
@@ -56,21 +63,21 @@ const HomeScreen = props => {
             <View>
                 <PieChart 
                     data={pieData}
-                    width={200}
-                    height={200}
+                    width={350}
+                    height={220}
                     chartConfig={{
                         // backgroundColor: '#E26A00',
                         // backgroundGradientFrom: '#FB8C00',
                         // backgroundGradientTo: '#FFA726',
-                        // //decimalPlaces: 2, //optional, defaults to 2dp
-                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        // decimalPlaces: 2, //optional, defaults to 2dp
+                        color: (opacity = 1) => `rgba(225, 225, 225, ${opacity})`,
                         style: {
-                            borderRadius: 16
+                            borderRadius: 6
                         }
                     }}
                     accessor='population'
                     backgroundColor='transparent'
-                    paddingLeft='15'
+                    paddingLeft={8}
                     absolute
                     //radius={100}
                 />
@@ -95,9 +102,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: 'white',
         width: '90%',
-        height: 100,
+        height: 160,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'orange'
     },
     fields: {
         margin: 10,
@@ -114,7 +122,7 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     title: {
-        paddingBottom: 10,
+        paddingBottom: 5,
         fontSize: 16,
         fontWeight: 'bold',
         color: 'orange'

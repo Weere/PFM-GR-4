@@ -1,6 +1,6 @@
 export const CREATE_USER = 'CREATE_USER';
 
-export const createUser = (userName, telNo, date, email, income, password) => {
+export const createUser = (userName, telNo, date, email, income, occupation, password) => {
     return {
         type: CREATE_USER, 
         userData: {
@@ -9,6 +9,7 @@ export const createUser = (userName, telNo, date, email, income, password) => {
             date,
             email,
             income,
+            occupation,
             password
         }
     };
