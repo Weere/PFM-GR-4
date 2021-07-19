@@ -23,11 +23,23 @@ const Tab = createBottomTabNavigator();
 
 const AuthStack = () => {
     return (
-        <Stack.Navigator initialRouteName="LoginScreen">
-            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            {/* <Stack.Screen name="HomeStack" component={HomeStack} /> */}
-            {/* <Stack.Screen name="MyDrawer" component={MyDrawer} /> */}
+        <Stack.Navigator initialRouteName="LoginScreen" screenOptions={{
+            headerStyle: {
+                backgroundColor: 'orange'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold'
+            }
+        }}>
+            <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{
+                headerTitleAlign: 'center',
+                title: 'Registration'
+            }}/>
+            <Stack.Screen name="LoginScreen" component={LoginScreen} options={{
+                headerTitleAlign: 'center',
+                title: 'Login'
+            }}/>
         </Stack.Navigator>
     )
 };
@@ -151,6 +163,10 @@ const ProfileStack = ({navigation}) => {
                 headerLeft: () => (
                     <Icon.Button name='md-menu' size={30} 
                     backgroundColor='orange' onPress={() => {navigation.openDrawer()}} />
+                ),
+                headerRight: () => (
+                    <Icon.Button name='md-exit' size={30} 
+                    backgroundColor='orange' onPress={() => {navigation.navigate('AuthStack')}} />
                 )
             }} />
         </Stack.Navigator>

@@ -54,11 +54,14 @@ control: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingBottom: 10,
+    paddingVertical: 10,
 },
 textInput: {
     textAlign: 'center',
-    paddingBottom: 25
+    paddingBottom: 25,
+    color: 'orange',
+    fontWeight: 'bold',
+    fontSize: 16
 },
 selectText: {
     color: 'blue'

@@ -112,6 +112,7 @@ const LoginScreen = ({navigation}) => {
                 />
                 <View style={styles.ButtonContainer}>
                     <Button
+                        color='orange'
                         styles={styles.Button}
                         title='Login'
                         onPress={ submitHandler }

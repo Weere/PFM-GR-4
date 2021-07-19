@@ -218,12 +218,14 @@ const RegisterScreen = ({navigation}) => {
                     </ScrollView>
                     <View style={styles.ButtonContainer}>
                         <Button
+                            color='orange'
                             styles={styles.Button}
                             title='Sign Up'
                             onPress={ submitHandler }
                         />
                         <View style={styles.space} />
                         <Button 
+                            //color='blue'
                             styles={styles.Button}
                             title='Switch to Login'
                             onPress={ ()=>navigation.navigate("LoginScreen") }
@@ -259,14 +261,7 @@ const styles = StyleSheet.create({
     },
     space: {
         height: 10
-    },
-    // control: {
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     paddingHorizontal: 20,
-    //     paddingBottom: 20,
-    //     paddingVertical: 5
-    // }      
+    }     
   });
 
 export default RegisterScreen;
