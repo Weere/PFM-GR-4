@@ -15,8 +15,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Ionicons } from '@expo/vector-icons';
 
 export function DrawerContent(props) {
-    const size = 33;
-    const color = 'orange';
+    // const size = 33;
+    // const color = 'orange';
     return(
         // <View>
         //     <Text>This is a test</Text>
@@ -27,10 +27,14 @@ export function DrawerContent(props) {
                     {/* <Text>Main Content</Text> */}
                     <View style={styles.userInfoSection}>
                         <View style={{flexDirection: 'row', marginTop: 15}}>
-                            <Avatar.Image 
+                            {/* <Avatar.Image 
                                 source={{
                                     uri: 'location'
                                 }}
+                                size={50}
+                            /> */}
+                            <Avatar.Text
+                                label='ED'
                                 size={50}
                             />
                             <View style={{marginLeft: 15, flexDirection: 'column'}}>
@@ -44,8 +48,8 @@ export function DrawerContent(props) {
                             icon={({color, size}) => (
                                 <Icon 
                                 name='home-outline'
-                                color={color}
-                                size={size}
+                                color={'orange'}
+                                size={35}
                                 />
                             )}
                             label='Home'
@@ -55,8 +59,8 @@ export function DrawerContent(props) {
                             icon={({color, size}) => (
                                 <Icon 
                                 name='bookmark'
-                                color={color}
-                                size={size}
+                                color={'orange'}
+                                size={35}
                                 />
                             )}
                             label='Calender'
@@ -66,8 +70,8 @@ export function DrawerContent(props) {
                             icon={({color, size}) => (
                                 <Icon 
                                 name='book'
-                                color={color}
-                                size={size}
+                                color={'orange'}
+                                size={35}
                                 />
                             )}
                             label='Analysis'
@@ -77,8 +81,8 @@ export function DrawerContent(props) {
                             icon={({color, size}) => (
                                 <Icon 
                                 name='book-outline'
-                                color={color}
-                                size={size}
+                                color={'orange'}
+                                size={35}
                                 />
                             )}
                             label='Transaction Statment'
@@ -88,8 +92,8 @@ export function DrawerContent(props) {
                             icon={({color, size}) => (
                                 <Icon 
                                 name='bookmark-outline'
-                                color={color}
-                                size={size}
+                                color={'orange'}
+                                size={35}
                                 />
                             )}
                             label='Note Book'
@@ -99,8 +103,8 @@ export function DrawerContent(props) {
                             icon={({color, size}) => (
                                 <Icon 
                                 name='account-outline'
-                                color={color}
-                                size={size}
+                                color={'orange'}
+                                size={35}
                                 />
                             )}
                             label='Profile'
@@ -114,12 +118,12 @@ export function DrawerContent(props) {
                     icon={({color, size}) => (
                         <Icon 
                         name="exit-to-app"
-                        color= {color}
-                        size= {size}
+                        color={'red'}
+                                size={35}
                         />
                     )}
                     label='Sign Out'
-                    onPress={() => {props.navigation.navigate('LoginScreen')}}
+                    onPress={() => {props.navigation.navigate('AuthStack')}}
                 />
             </Drawer.Section>
         </View>
