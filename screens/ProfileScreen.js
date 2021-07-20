@@ -217,8 +217,8 @@ const ProfileScreen = ({navigation}) => {
                                     required
                                 />
                         </KeyboardAvoidingView>
-                        {/* <Trial /> */}
-                    </ScrollView>
+                        <Trial />
+                    
                    
                     <View style={styles.ButtonContainer}>
                         <View style={{width: 100}}>
@@ -238,7 +238,7 @@ const ProfileScreen = ({navigation}) => {
                         />
                         </View>
                         
-                    </View>
+                    </View></ScrollView>
                 </View>
             </View>
         </View>

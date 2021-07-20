@@ -17,9 +17,9 @@ import TransactionScreen from '../screens/TransactionScreen';
 import NoteBookScreen from '../screens/NoteBookScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { DrawerContent } from "./DrawerContent";
-// import CreateNote from "../screens/Notes/CreateNote";
-// import AllNotes from "../screens/Notes/AllNotes";
-// import Note from "../screens/Notes/Note";
+import CreateNote from "../screens/Notes/CreateNote";
+import AllNotes from "../screens/Notes/AllNotes";
+import Note from "../screens/Notes/Note";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -187,7 +187,7 @@ const ProfileStack = ({navigation}) => {
             <Drawer.Screen name="TransactionStack" component={TransactionStack} />
             <Drawer.Screen name="NoteBookStack" component={NoteBookStack} />
             <Drawer.Screen name="ProfileStack" component={ProfileStack} />
-            {/* <Drawer.Screen name="TabNavigator" component={TabNavigator} /> */}
+            <Drawer.Screen name="TabNavigator" component={TabNavigator} />
         </Drawer.Navigator>
     )
 };
@@ -205,7 +205,9 @@ export default MyDrawer;
 // const { Navigator, Screen } = createBottomTabNavigator()
 
 // const BottomTabBar = ({navigation, state}) => (
-//     <BottomNavigation selectedIndex={state.index} onSelect={(index) => navigation.navigate(state.index)} >
+//     <BottomNavigation 
+//         selectedIndex={state.index} 
+//         onSelect={(index) => navigation.navigate(state.routeNames[index])} >
 //         <BottomNavigationTab title="Create" />
 //         <BottomNavigationTab title="All Notes" />
 //     </BottomNavigation>
@@ -219,3 +221,12 @@ export default MyDrawer;
 //     </Navigator>
 // )
  
+const TabNavigator = () => {
+    return (
+        <Tab.Navigator initialRouteName="Create">
+            <Stack.Screen name="Create" component={CreateNote} />
+            <Stack.Screen name="AllNotes" component={AllNotes} />
+            <Stack.Screen name="Note" component={Note} />
+        </Tab.Navigator>
+    )
+};

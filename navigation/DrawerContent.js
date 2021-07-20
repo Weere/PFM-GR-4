@@ -88,17 +88,6 @@ export function DrawerContent(props) {
                             label='Transaction Statment'
                             onPress={() => {props.navigation.navigate('TransactionStack')}}
                         />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name='bookmark-outline'
-                                color={'orange'}
-                                size={35}
-                                />
-                            )}
-                            label='Note Book'
-                            onPress={() => {props.navigation.navigate('NoteBookStack')}}
-                        />
                         {/* <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
@@ -108,8 +97,19 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label='Note Book'
-                            onPress={() => {props.navigation.navigate('TabNavigator')}}
+                            onPress={() => {props.navigation.navigate('NoteBookStack')}}
                         /> */}
+                        <DrawerItem 
+                            icon={({color, size}) => (
+                                <Icon 
+                                name='bookmark-outline'
+                                color={'orange'}
+                                size={35}
+                                />
+                            )}
+                            label='Note Book'
+                            onPress={() => {props.navigation.navigate('TabNavigator')}}
+                        />
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 

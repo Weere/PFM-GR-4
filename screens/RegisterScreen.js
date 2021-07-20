@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback, useReducer} from 'react'
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-//import Trial from '../components/trial';
+import Trial from '../components/trial';
 //import { dateselected } from '../components/trial';
 import InputCustom from '../components/InputCustom';
 import * as userActions from '../store/actions/user';
@@ -214,7 +214,7 @@ const RegisterScreen = ({navigation}) => {
                         initialValue=''
                         required
                     /></KeyboardAvoidingView>
-                    {/* <Trial /> */}
+                    <Trial />
                     </ScrollView>
                     <View style={styles.ButtonContainer}>
                         <Button
