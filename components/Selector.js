@@ -13,12 +13,12 @@ class Selects extends Component {
       label='Favorite Fruit'        
       data={data}     
       animationDuration={255} 
-      // fontSize={16}
-      // labelFontSize={12}
-      // dropdownOffset={{top : 32, left : 0}}
-      // propsExtractor={()=>null}
-      // onChangeText={()=>{}}
-      // selectedItemColor='orange'
+      fontSize={16}
+      labelFontSize={12}
+      dropdownOffset={{top : 32, left : 0}}
+      propsExtractor={()=>null}
+      onChangeText={()=>{}}
+      selectedItemColor='orange'
   		/>    
 		);  
 	}

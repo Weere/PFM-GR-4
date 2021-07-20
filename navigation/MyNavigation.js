@@ -1,5 +1,6 @@
 import React from "react";
 import Icon from 'react-native-vector-icons/Ionicons';
+//import { BottomNavigation, BottomNavigationTab } from "@ui-kitten/components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -16,6 +17,9 @@ import TransactionScreen from '../screens/TransactionScreen';
 import NoteBookScreen from '../screens/NoteBookScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { DrawerContent } from "./DrawerContent";
+// import CreateNote from "../screens/Notes/CreateNote";
+// import AllNotes from "../screens/Notes/AllNotes";
+// import Note from "../screens/Notes/Note";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -165,7 +169,7 @@ const ProfileStack = ({navigation}) => {
                     backgroundColor='orange' onPress={() => {navigation.openDrawer()}} />
                 ),
                 headerRight: () => (
-                    <Icon.Button name='md-exit' size={30} 
+                    <Icon.Button name='md-exit' size={30} color='red'
                     backgroundColor='orange' onPress={() => {navigation.navigate('AuthStack')}} />
                 )
             }} />
@@ -175,7 +179,7 @@ const ProfileStack = ({navigation}) => {
 
  const MyDrawer = () => {
     return (
-        <Drawer.Navigator initialRouteName="HomeScreen" drawerContent={props => <DrawerContent {...props} />} >
+        <Drawer.Navigator initialRouteName="AuthStack" drawerContent={props => <DrawerContent {...props} />} >
             <Drawer.Screen name="AuthStack" component={AuthStack} />
             <Drawer.Screen name="HomeScreen" component={HomeStack} />
             <Drawer.Screen name="CalenderTab" component={CalenderTab} />
@@ -183,6 +187,7 @@ const ProfileStack = ({navigation}) => {
             <Drawer.Screen name="TransactionStack" component={TransactionStack} />
             <Drawer.Screen name="NoteBookStack" component={NoteBookStack} />
             <Drawer.Screen name="ProfileStack" component={ProfileStack} />
+            {/* <Drawer.Screen name="TabNavigator" component={TabNavigator} /> */}
         </Drawer.Navigator>
     )
 };
@@ -194,12 +199,23 @@ export default MyDrawer;
 //     Auth: AuthNavigator,
 //     Shop: ShopNavigator
 //   });
-export const MyNavigation = () => {
-    return (
-        <NavigationContainer>
-            <MyDrawer.NavigationContainer />
-            <AuthStack.NavigationContainer />
-        </NavigationContainer>
-    )
-}
-//export default MyNavigation;
+// yy
+
+//  //
+// const { Navigator, Screen } = createBottomTabNavigator()
+
+// const BottomTabBar = ({navigation, state}) => (
+//     <BottomNavigation selectedIndex={state.index} onSelect={(index) => navigation.navigate(state.index)} >
+//         <BottomNavigationTab title="Create" />
+//         <BottomNavigationTab title="All Notes" />
+//     </BottomNavigation>
+// )
+
+// const TabNavigator = () => (
+//     <Navigator tabBar ={(props) => <BottomTabBar {...props} />}>
+//         <Screen name="Create" component={CreateNote} />
+//         <Screen name="AllNotes" component={AllNotes} />
+//         <Screen name="Note" component={Note} />
+//     </Navigator>
+// )
+ 

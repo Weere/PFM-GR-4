@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import { View, Text, TextInput, Button, SafeAreaView, StyleSheet } from 'react-native';
 //import Selects from '../components/Selector';
 const AddExpensesScreen = props => {
@@ -54,7 +54,7 @@ const AddExpensesScreen = props => {
                 </View>
             </View>
         </SafeAreaView>
-    );c
+    );
 };
 
 const styles = StyleSheet.create({
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     text: {
         textAlign: 'center',
         padding: 10,
-        fontSize: 20
+        fontSize: 18
     },
     input: {
         textAlign: 'center',
@@ -85,16 +85,18 @@ const styles = StyleSheet.create({
         borderBottomColor: 'orange',
         width: '30%',
         fontSize: 18,
-        color: 'grey'
+        color: 'grey',
+        marginHorizontal: 20
     },
     inputControl: {
         flexDirection: 'row',
         //marginHorizontal: 0,
-        marginVertical: 10,
+        marginVertical: 20,
         
     },
     controls: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     button: {
         color: 'orange'

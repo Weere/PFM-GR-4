@@ -112,15 +112,16 @@ const LoginScreen = ({navigation}) => {
                 />
                 <View style={styles.ButtonContainer}>
                     <Button
-                        color='orange'
+                        //color='blue'
                         styles={styles.Button}
-                        title='Login'
+                        title='LOGIN'
                         onPress={ submitHandler }
                     />
                     <View style={styles.space} />
                     <Button 
+                        color='orange'
                         styles={styles.Button}
-                        title='Switch to Sign Up'
+                        title='SWITCH TO SIGN UP'
                         onPress={ ()=>navigation.navigate("RegisterScreen") }
                     />
                 </View>
@@ -133,14 +134,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        margin: 40
+        margin: 20
     },
     form: {
-        //flex: 1,
-        // margin: 20,
-        // paddingTop: 80,
-        padding: 20,
+        padding: 10,
 
         shadowColor: 'black',
         shadowOpacity: 0.26,
@@ -149,7 +146,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderRadius: 10,
         backgroundColor: 'white',
-        //width: '90%',
+        //width: '100%',
     },
     space: {
         height: 10

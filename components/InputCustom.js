@@ -79,11 +79,11 @@ const InputCustom = props => {
             onBlur={lostFocusHandler}
           />
         </View>
-      {!inputState.isValid && inputState.touched && (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{props.errorText}</Text>
-        </View>
-      )}
+        {!inputState.isValid && inputState.touched && (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{props.errorText}</Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -91,7 +91,7 @@ const InputCustom = props => {
 
 const styles = StyleSheet.create({
   formControl: {
-    //width: '100%',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
@@ -100,11 +100,11 @@ const styles = StyleSheet.create({
   },
   label: {
    // fontFamily: 'open-sans-bold',
-    marginVertical: 10,
-    paddingHorizontal: 20
+    marginVertical: 15,
+    marginLeft: 10
   },
   inputContainer: {
-    marginRight: 20
+    marginRight: 10
   },
   input: {
     paddingHorizontal: 10,
