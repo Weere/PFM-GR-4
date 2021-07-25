@@ -279,3 +279,5 @@ const styles = StyleSheet.create({
   });
 
 export default ProfileScreen;
+
+//https://expo.io/@/projects/ManageMyFinance

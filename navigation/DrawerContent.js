@@ -88,7 +88,7 @@ export function DrawerContent(props) {
                             label='Transaction Statment'
                             onPress={() => {props.navigation.navigate('TransactionStack')}}
                         />
-                        {/* <DrawerItem 
+                        <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
                                 name='bookmark-outline'
@@ -98,7 +98,7 @@ export function DrawerContent(props) {
                             )}
                             label='Note Book'
                             onPress={() => {props.navigation.navigate('NoteBookStack')}}
-                        /> */}
+                        />
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 

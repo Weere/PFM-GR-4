@@ -3,8 +3,12 @@ import { opacity } from 'jimp';
 import React, {useState} from 'react'
 import { View, Text, TextInput, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
+import { IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 
 const AnalysisScreen = props => {
+
+    const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+
     const periodAmount = {
         labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
         datasets: [
@@ -41,13 +45,23 @@ const AnalysisScreen = props => {
                     </View>
                     <View style={styles.component}>
                         <Text style={styles.text}>According To:</Text>
-                        <TextInput 
+                        {/* <TextInput 
                             style={styles.input} 
                             value={"period"} 
                             onChangeText={() => {}}
                             placeholder="Monthly" 
                             keyboardType="default"
-                        />
+                        /> */}
+                        <Layout style={styles.cont} level='1'>
+                        <Select
+                            placeholder='acccp'
+                            selectedIndex={selectedIndex}
+                            onSelect={index => setSelectedIndex(index)}>
+                            <SelectItem title='Daily'/>
+                            <SelectItem title='Weekly'/>
+                            <SelectItem title='Monthly'/>
+                        </Select>
+                        </Layout>
                     </View>
                 </View>
                 <ScrollView horizontal={true} >
@@ -125,9 +139,10 @@ const styles = StyleSheet.create({
         paddingVertical: 5
     },
     component: {
+        flex: 1,
         flexDirection: 'row',
-        margin: 10,
-        alignContent: 'space-between',
+        marginVertical: 10,
+        justifyContent: 'space-between',
         alignItems: 'center'
     },
     text: {
@@ -144,6 +159,12 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderColor: '#DADAE8',
         textAlign: 'center'
+    },
+    cont: {
+        minHeight: 40,
+        minWidth: 150,
+        paddingHorizontal: 5,
+        marginHorizontal: 10
     }
 });
 

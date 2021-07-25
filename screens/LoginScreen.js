@@ -89,7 +89,7 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.form}>
                 <InputCustom
                     id='email'
-                    label='Email'
+                    label='Email:'
                     errorText='Please enter a valid email!'
                     placeholder="Your Email" 
                     keyboardType="email-address"
@@ -100,7 +100,7 @@ const LoginScreen = ({navigation}) => {
                 />
                 <InputCustom
                     id='password'
-                    label='Password'
+                    label='Password:'
                     errorText='Please enter a valid password!'
                     placeholder="Password" 
                     keyboardType="default"

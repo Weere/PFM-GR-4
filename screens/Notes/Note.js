@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import { useFocusEffect ,useNavigation } from '@react-navigation/native'
-//import { Button, Text } from '@ui-kitten/components'
-import { View, Text, Button, StyleSheet } from 'react-native';
-import AsyncStorage from 'react-native';
+import { Button, Text } from '@ui-kitten/components'
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Note ({route}) {
     const [notes, setNotes] = useState([])
@@ -29,16 +29,20 @@ export default function Note ({route}) {
 
     return(
         <View style={{ backgroundColor: "#222B45", flex: 1 }}>
-            <Text style={styles.title} category="h1">
-                Notes
-            </Text>
-            <Text style={{ fontSize: 22, margin: 20 }} >
-                {singleNote}
-            </Text>
-            <View style={styles.bottom}>
-                <Button onPress={deleteNote} style={styles.button}>
-                    Delete
-                </Button>
+            <View style={styles.conTitle}>
+                <Text style={styles.title} category="h2">
+                    NOTE
+                </Text>
+            </View>
+            <View style={styles.conBody}>
+                <Text style={{ fontSize: 22, margin: 20 }} >
+                    {singleNote}
+                </Text>
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.bottom} >
+                    <Button style={{width: 300,}} appearance="filled" onPress={deleteNote}>
+                        Delete a Note
+                    </Button>
+                </KeyboardAvoidingView>
             </View>
         </View>
     );
@@ -56,9 +60,23 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center",
-        marginTop: 50
+        marginTop: 40
     },
     notes: {
         fontSize: 24
+    },
+    bottom: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginBottom: 30,
+        alignItems: 'center'
+    },
+    conTitle: {
+        
+        flex: 1
+    },
+    conBody: {
+        backgroundColor: '#222B55',
+        flex: 5
     }
 });

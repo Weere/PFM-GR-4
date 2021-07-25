@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
 import { useFocusEffect ,useNavigation } from '@react-navigation/native'
-//import { Button, Divider, List, ListItem, Text } from '@ui-kitten/components'
-import { View, Text, Button, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, FlatList } from 'react-native';
-import AsyncStorage from 'react-native';
-import { Divider } from 'react-native-paper';
+import { Button, Divider, List, ListItem, Text } from '@ui-kitten/components'
+import { View, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+ //import AsyncStorage from 'react-native';
+//import { Divider } from 'react-native-paper';
 
 export default function AllNotes () {
     const [notes, setNotes] = useState([])
@@ -22,42 +23,28 @@ export default function AllNotes () {
     }
 
     const renderItem = ({ item, index }) => (
-        // <ListItem
-        //     //title={`${item.title} ${index + 1}`}
-        //     //description={`${item.description} ${index + 1}`}
-        //     title={<Text category="h5" >{item}</Text>}
-        //     onPress={() => navigation.navigate("Note", {
-        //         singleNote: item
-        //     })}
-        // />
-        <TouchableOpacity 
-            onPress={() => navigation.navigate("NOTE", {singleNote: item})} >
-            <Text>{item}</Text>
-        </TouchableOpacity>
+        <ListItem
+            //title={`${item.title} ${index + 1}`}
+            //description={`${item.description} ${index + 1}`}
+            title={<Text category="h5" >{item}</Text>}
+            onPress={() => navigation.navigate("Note", {
+                singleNote: item
+            })}
+        />
     );
 
     return(
-        // <View style={{ backgroundColor: "#222B45", flex: 1 }}>
-        //     <Text style={styles.title} category="h1">
-        //         Notes
-        //     </Text>
-        //     <List 
-        //         style={styles.container}
-        //         data={notes.reverse()}
-        //         ItemSeparatorComponent={Divider}
-        //         renderItem={renderItem}
-        //     />
-        // </View>
-        <View style={{ backgroundColor: "#222B45", flex: 1 }}>
-        <Text style={styles.title} >Notes</Text>
-        
-        <FlatList
-            style={styles.container}
-            data={notes.reverse()}
-            ItemSeparatorComponent={Divider}
-            renderItem={renderItem}
-        />
-    </View>
+        <View style={{ backgroundColor: "#222B55", flex: 1 }}>
+            <Text style={styles.title} category="h2">
+                NOTES
+            </Text>
+            <List 
+                style={styles.container}
+                data={notes}
+                ItemSeparatorComponent={Divider}
+                renderItem={renderItem}
+            />
+        </View>
     );
 };
 
@@ -70,7 +57,9 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center",
-        marginTop: 50
+        marginTop: 40,
+        fontStyle: 'normal',
+        paddingBottom: 5
     },
     notes: {
         fontSize: 24

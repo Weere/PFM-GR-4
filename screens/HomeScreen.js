@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
 import { View, Text, TextInput,StyleSheet } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
+//import SlideshowTest from '../components/ImageSlider';
+import Onboarding from '../components/onboarding';
+
 const HomeScreen = props => {
     const pieData = [
         {
@@ -50,7 +53,9 @@ const HomeScreen = props => {
     return(
         <View style={styles.container}>
             <View style={styles.inspiration}>
-                <Text>Inspirational messages</Text>
+                {/* <Text>Inspirational messages</Text> */}
+                {/* <SlideshowTest /> */}
+                <Onboarding />
             </View>
             <View style={styles.fields}>
                 <Text style={styles.title}>Hey Wray Dray,</Text>
@@ -100,12 +105,13 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 5,
         borderRadius: 10,
-        backgroundColor: 'white',
+       // backgroundColor: 'white',
         width: '90%',
         height: 160,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'orange'
+        backgroundColor: 'orange',
+        flex: 1
     },
     fields: {
         margin: 10,

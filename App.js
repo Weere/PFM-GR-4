@@ -6,8 +6,11 @@ import ReduxThunK from 'redux-thunk';//** */
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo' //*** */
 
+import * as eva from '@eva-design/eva'
+
 import MyDrawer from './navigation/MyNavigation';
 import userReducer from './store/reducers/user'
+import { ApplicationProvider } from '@ui-kitten/components';
 
 const rootReducer = combineReducers({
   users : userReducer
@@ -36,10 +39,15 @@ export default function App() {
   //   );//** */
   // }
   return (
-    <Provider store={store} >
-      <NavigationContainer>
+    // <Provider store={store} >
+    //   <NavigationContainer>
+    //     <MyDrawer />
+    //   </NavigationContainer>
+    // </Provider>
+    <ApplicationProvider {...eva} theme={eva.dark}>
+      <Provider store={store} ><NavigationContainer>
         <MyDrawer />
-      </NavigationContainer>
-    </Provider>
+      </NavigationContainer></ Provider >
+    </ApplicationProvider>
   );
 }

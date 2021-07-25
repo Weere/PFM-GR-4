@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from 'react-native-vector-icons/Ionicons';
-//import { BottomNavigation, BottomNavigationTab } from "@ui-kitten/components";
-import { NavigationContainer } from "@react-navigation/native";
+import { BottomNavigation, BottomNavigationTab } from "@ui-kitten/components";
+//import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -202,31 +202,31 @@ export default MyDrawer;
 // yy
 
 //  //
-// const { Navigator, Screen } = createBottomTabNavigator()
+const { Navigator, Screen } = createBottomTabNavigator()
 
-// const BottomTabBar = ({navigation, state}) => (
-//     <BottomNavigation 
-//         selectedIndex={state.index} 
-//         onSelect={(index) => navigation.navigate(state.routeNames[index])} >
-//         <BottomNavigationTab title="Create" />
-//         <BottomNavigationTab title="All Notes" />
-//     </BottomNavigation>
-// )
+const BottomTabBar = ({navigation, state}) => (
+    <BottomNavigation 
+        selectedIndex={state.index} 
+        onSelect={(index) => navigation.navigate(state.routeNames[index])} >
+        <BottomNavigationTab title="Create" />
+        <BottomNavigationTab title="All Notes" />
+    </BottomNavigation>
+)
 
-// const TabNavigator = () => (
-//     <Navigator tabBar ={(props) => <BottomTabBar {...props} />}>
-//         <Screen name="Create" component={CreateNote} />
-//         <Screen name="AllNotes" component={AllNotes} />
-//         <Screen name="Note" component={Note} />
-//     </Navigator>
-// )
+const TabNavigator = () => (
+    <Navigator tabBar ={(props) => <BottomTabBar {...props} />}>
+        <Screen name="Create" component={CreateNote} />
+        <Screen name="AllNotes" component={AllNotes} />
+        <Screen name="Note" component={Note} />
+    </Navigator>
+)
  
-const TabNavigator = () => {
-    return (
-        <Tab.Navigator initialRouteName="Create">
-            <Stack.Screen name="Create" component={CreateNote} />
-            <Stack.Screen name="AllNotes" component={AllNotes} />
-            <Stack.Screen name="Note" component={Note} />
-        </Tab.Navigator>
-    )
-};
+// const TabNavigator = () => {
+//     return (
+//         <Tab.Navigator initialRouteName="Create">
+//             <Stack.Screen name="Create" component={CreateNote} />
+//             <Stack.Screen name="AllNotes" component={AllNotes} />
+//             <Stack.Screen name="Note" component={Note} />
+//         </Tab.Navigator>
+//     )
+// };

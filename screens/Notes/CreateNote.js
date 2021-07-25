@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import { useNavigation } from '@react-navigation/native'
-//import { Button } from '@ui-kitten/components'
-import { View, Button, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
-import AsyncStorage from 'react-native';
+import { Button } from '@ui-kitten/components'
+import { View,  TextInput, StyleSheet, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CreateNote () {
     const [note, setNote] = useState("")
@@ -12,7 +12,7 @@ export default function CreateNote () {
         const value = await AsyncStorage.getItem("NOTES")
         const n = value ? JSON.parse(value) : []
         n.push(note)
-        await AsyncStorage.setItem("NOTE", JSON.stringify(n))
+        await AsyncStorage.setItem("NOTES", JSON.stringify(n))
         .then(() => navigation.navigate("AllNotes"))
         setNote("")
     }
@@ -26,17 +26,10 @@ export default function CreateNote () {
                 autoFocus
                 selectionColor='orange'
             />
-            {/* <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.bottom} >
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.bottom} >
                 <Button style={styles.button} appearance="filled" onPress={saveNote}>
                     Create Note
                 </Button>
-            </KeyboardAvoidingView> */}
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.bottom} >
-            <Button 
-                title='Create Note'
-                style={styles.button}
-                onPress={saveNote}
-            />
             </KeyboardAvoidingView>
         </View>
     );
@@ -56,6 +49,5 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         marginBottom: 30
-
     }
 });
