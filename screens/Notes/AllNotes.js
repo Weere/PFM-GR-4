@@ -34,7 +34,10 @@ export default function AllNotes () {
     );
 
     return(
-        <View style={{ backgroundColor: "#222B55", flex: 1 }}>
+        <View style={{ 
+            //backgroundColor: "#222B55",
+            backgroundColor: 'orange', 
+            flex: 1 }}>
             <Text style={styles.title} category="h2">
                 NOTES
             </Text>
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center",
-        marginTop: 40,
+        marginTop: 35,
         fontStyle: 'normal',
         paddingBottom: 5
     },

@@ -1,75 +1,104 @@
 import React, {useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+import { Agenda, CalendarList } from 'react-native-calendars';
 import { Avatar, Card } from 'react-native-paper';
 
-const timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
+// const timeToString = (time) => {
+//     const date = new Date(time);
+//     return date.toISOString().split('T')[0];
+// };
+
+const RANGE = 24;
+const initialDate = new Date();
+
+const CalenderScreen = ({navigation}) => {
+  const [selected, setSelected] = useState(initialDate);
+  const markedDates = {
+    [selected]: {
+      selected: true,
+      disableTouchEvent: true,
+      selectedColor: '#5E60CE',
+      selectedTextColor: 'white'
+    }
+  };
+  
+  const onDayPress = day => {
+    setSelected(day.dateString);
+    navigation.navigate("ExpensesScreen")
+  };
+
+  return (
+    <View style={{flex: 1}}>
+    <CalendarList
+      //testID={testIDs.calendarList.CONTAINER}
+      current={initialDate}
+      pastScrollRange={RANGE}
+      futureScrollRange={RANGE}
+      renderHeader={renderCustomHeader}
+      theme={theme}
+      onDayPress={onDayPress}
+      markedDates={markedDates}
+      horizontal
+      pagingEnabled
+      hideArrows={true}
+    /></View>
+  );
 };
 
-const CalenderScreen = props => {
-    const [items, setItems] = useState({});
-
-    const loadItems = (day) => {
-        setTimeout(() => {
-          for (let i = -15; i < 85; i++) {
-            const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-            const strTime = timeToString(time);
-            if (!items[strTime]) {
-              items[strTime] = [];
-              const numItems = Math.floor(Math.random() * 3 + 1);
-              for (let j = 0; j < numItems; j++) {
-                items[strTime].push({
-                  name: 'Item for ' + strTime + ' #' + j,
-                  height: Math.max(50, Math.floor(Math.random() * 150))
-                });
-              }
-            }
-          }
-          const newItems = {};
-          Object.keys(items).forEach(key => {
-            newItems[key] = items[key];
-          });
-          setItems(newItems);
-        }, 1000);
-      };
-    
-      const renderItem = (item) => {
-        return (
-            <TouchableOpacity 
-                style={{marginRight: 10,
-                marginTop: 17}}>
-                <Card>
-                    <Card.Content>
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center'
-                            }}
-                        >
-                            <Text>{item.name}</Text>
-                            <Avatar.Text label="J"/>
-                        </View>
-                    </Card.Content>
-                </Card>
-            </TouchableOpacity>
-        )
-      }
-
-    return(
-        <View style={{flex: 1}}>
-            <Agenda 
-                items={items}
-                loadItemsForMonth={loadItems}
-                selected={'2017-05-16'}
-                renderItem={renderItem}
-            />
-        </View>
-    );
+const theme = {
+  'stylesheet.calendar.header': {
+    dayHeader: {
+      fontWeight: '600',
+      color: '#48BFE3'
+    }
+  },
+  'stylesheet.day.basic': {
+    today: {
+      borderColor: '#48BFE3',
+      borderWidth: 0.8
+    },
+    todayText: {
+      color: '#5390D9',
+      fontWeight: '800'
+    }
+  }
 };
 
-const styles = StyleSheet.create({});
+function renderCustomHeader(date) {
+  const header = date.toString('MMMM yyyy');
+  const [month, year] = header.split(' ');
+  const textStyle = {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: '#5E60CE',
+    paddingRight: 5
+  };
+
+  return (
+    <View style={styles.header}>
+      <Text style={[styles.month, textStyle]}>{`${month}`}</Text>
+      <Text style={[styles.year, textStyle]}>{year}</Text>
+    </View>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    marginBottom: 10
+  },
+  month: {
+    marginLeft: 5
+  },
+  year: {
+    marginRight: 5
+  }
+});
 
 export default CalenderScreen;

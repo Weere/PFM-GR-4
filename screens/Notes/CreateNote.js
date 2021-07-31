@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         padding: 30,
         paddingTop: 80,
 
-        width: Dimensions.get("window").width
+        //width: Dimensions.get("window").width
     },
     bottom: {
         flex: 1,

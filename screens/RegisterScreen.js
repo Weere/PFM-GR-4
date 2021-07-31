@@ -107,7 +107,7 @@ const RegisterScreen = ({navigation}) => {
         <View style={styles.container}>
             <View style={styles.form}>
         <ScrollView><KeyboardAvoidingView behavior="padding"
-            keyboardVerticalOffset={100}>
+            keyboardVerticalOffset={50}>
                     <InputCustom
                         id='userName'
                         label='Name:'

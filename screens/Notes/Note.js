@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     conTitle: {
-        
+        backgroundColor: 'orange',
         flex: 1
     },
     conBody: {
-        backgroundColor: '#222B55',
-        flex: 5
+        backgroundColor: 'white',
+        flex: 3
     }
 });

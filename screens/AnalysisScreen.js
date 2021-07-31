@@ -1,13 +1,26 @@
 import { rgba } from 'jimp';
 import { opacity } from 'jimp';
 import React, {useState} from 'react'
-import { View, Text, TextInput, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Dimensions, ScrollView, ViewPropTypes } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
+import Trial from '../components/trial';
 
 const AnalysisScreen = props => {
 
+    const data = [
+        'Daily',
+        'Weekly',
+        'Monthly',
+    ];
+
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+
+    const displayValue = data[selectedIndex.row];
+
+    const renderOption = (title) => (
+        <SelectItem title={title}/>
+    );
 
     const periodAmount = {
         labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
@@ -42,6 +55,7 @@ const AnalysisScreen = props => {
                             placeholder="DD/MM/YYYY" 
                             keyboardType="default"
                         />
+                        {/* <Trial /> */}
                     </View>
                     <View style={styles.component}>
                         <Text style={styles.text}>According To:</Text>
@@ -52,26 +66,27 @@ const AnalysisScreen = props => {
                             placeholder="Monthly" 
                             keyboardType="default"
                         /> */}
-                        <Layout style={styles.cont} level='1'>
-                        <Select
-                            placeholder='acccp'
-                            selectedIndex={selectedIndex}
-                            onSelect={index => setSelectedIndex(index)}>
-                            <SelectItem title='Daily'/>
-                            <SelectItem title='Weekly'/>
-                            <SelectItem title='Monthly'/>
-                        </Select>
+                        <Layout style={styles.cont}>
+                            <Select
+                                placeholder='Period'
+                                value={displayValue}
+                                selectedIndex={selectedIndex}
+                                onSelect={index => setSelectedIndex(index)}>
+                                {data.map(renderOption)}
+                            </Select>
                         </Layout>
                     </View>
                 </View>
-                <ScrollView horizontal={true} >
-                    <View>
-                        <Text style={styles.title}>
-                            Total expenditure in a week
-                        </Text>
+                
+                <View style={styles.formComponent}>
+                    <Text style={styles.title}>
+                        Total expenditure in a week
+                    </Text>
+                    {/* <ScrollView horizontal={true} > */}
                         <LineChart 
                             data={periodAmount}
-                            width={Dimensions.get('window').width}
+                            width={Dimensions.get('window').width*0.95}
+                            //width={100*0.1}
                             height={220}
                             yAxisLabel={'$'}
                             chartConfig={{
@@ -90,16 +105,17 @@ const AnalysisScreen = props => {
                                 borderRadius: 16
                             }}
                         />
-                    </View>
-                </ScrollView>
-                <ScrollView horizontal={true}>
-                    <View>
-                        <Text style={styles.title}>
-                            Percentage expenditure in a week
-                        </Text>
+                    {/* </ScrollView> */}
+                </View>
+                
+                <View style={styles.formComponent}>
+                    <Text style={styles.title}>
+                        Percentage expenditure in a week
+                    </Text>
+                    {/* <ScrollView horizontal={true}> */}
                         <LineChart 
                             data={percentageItems}
-                            width={Dimensions.get('window').width}
+                            width={Dimensions.get('window').width*0.95}
                             height={220}
                             yAxisLabel={'%'}
                             chartConfig={{
@@ -118,9 +134,10 @@ const AnalysisScreen = props => {
                                 borderRadius: 16
                             }}
                         />
-                    </View>
-                </ScrollView>
-                <View>
+                    {/* </ScrollView> */}
+                </View>
+                
+                <View style={styles.formComponent}>
                     <Text style={styles.text}>Comment: Your progressing well.</Text>
                 </View>
             </View>
@@ -139,7 +156,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5
     },
     component: {
-        flex: 1,
+        //flex: 1,
         flexDirection: 'row',
         marginVertical: 10,
         justifyContent: 'space-between',
@@ -147,24 +164,30 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center',
-        fontWeight: "200"
+        fontWeight: "900",
+        fontSize: 16,
+        paddingHorizontal: 10
     },
     title: {
         textAlign: 'justify',
         fontStyle: 'italic',
-        fontWeight: "400"
+        fontWeight: "bold",
+        fontSize: 18,
+        paddingTop: 25
     },
     input: {
         borderWidth: 1,
         borderRadius: 30,
         borderColor: '#DADAE8',
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingHorizontal: 10
     },
     cont: {
         minHeight: 40,
         minWidth: 150,
         paddingHorizontal: 5,
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        backgroundColor: null
     }
 });
 

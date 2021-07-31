@@ -38,26 +38,47 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 
+const data = [
+  'Developer',
+  'Designer',
+  'Product Manager',
+];
+
 const NoteBookScreen = () => {
 
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
 
+  const displayValue = data[selectedIndex.row];
+
+  const renderOption = (title) => (
+    <SelectItem title={title}/>
+  );
+
   return (
-   // <Layout style={styles.container} level='1'>
+    <Layout style={styles.container} level='1'>
+
       <Select
+        style={styles.select}
+        placeholder='Default'
+        value={displayValue}
         selectedIndex={selectedIndex}
         onSelect={index => setSelectedIndex(index)}>
-        <SelectItem title='Option 1'/>
-        <SelectItem title='Option 2'/>
-        <SelectItem title='Option 3'/>
+        {data.map(renderOption)}
       </Select>
-    //</Layout>
+
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 192,
+  },
+  select: {
+    flex: 1,
+    margin: 2,
   },
 });
 

@@ -39,12 +39,7 @@ export default function App() {
   //   );//** */
   // }
   return (
-    // <Provider store={store} >
-    //   <NavigationContainer>
-    //     <MyDrawer />
-    //   </NavigationContainer>
-    // </Provider>
-    <ApplicationProvider {...eva} theme={eva.dark}>
+    <ApplicationProvider {...eva} theme={eva.light}>
       <Provider store={store} ><NavigationContainer>
         <MyDrawer />
       </NavigationContainer></ Provider >

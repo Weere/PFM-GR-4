@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
-import { View, Text, TextInput,StyleSheet } from 'react-native';
+import { View, Text, TextInput,StyleSheet, ScrollView } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 //import SlideshowTest from '../components/ImageSlider';
-import Onboarding from '../components/onboarding';
+//import Onboarding from '../components/onboarding';
 
 const HomeScreen = props => {
     const pieData = [
@@ -51,11 +51,12 @@ const HomeScreen = props => {
     ]
     const status = 'Okay';
     return(
-        <View style={styles.container}>
+        <ScrollView>
+            <View style={styles.container}>
             <View style={styles.inspiration}>
-                {/* <Text>Inspirational messages</Text> */}
+                <Text>Inspirational messages</Text>
                 {/* <SlideshowTest /> */}
-                <Onboarding />
+                {/* <Onboarding /> */}
             </View>
             <View style={styles.fields}>
                 <Text style={styles.title}>Hey Wray Dray,</Text>
@@ -87,7 +88,9 @@ const HomeScreen = props => {
                     //radius={100}
                 />
             </View>
-        </View>
+            </View>
+        </ScrollView>
+
     );
 };
 

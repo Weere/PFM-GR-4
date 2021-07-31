@@ -48,9 +48,10 @@ const TransactionScreen = props => {
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        padding: 16, 
-        paddingTop: 50, 
-        backgroundColor: '#ffffff' 
+        padding: 15, 
+        paddingTop: 20, 
+        backgroundColor: '#ffffff',
+        alignItems: 'center'
     },
     head: { 
         height: 50, 
