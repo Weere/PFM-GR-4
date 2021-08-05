@@ -10,10 +10,12 @@ import * as eva from '@eva-design/eva'
 
 import MyDrawer from './navigation/MyNavigation';
 import userReducer from './store/reducers/user'
+import categoriesReducer from './store/reducers/categories'
 import { ApplicationProvider } from '@ui-kitten/components';
 
 const rootReducer = combineReducers({
-  users : userReducer
+  users : userReducer,
+  category : categoriesReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunK));

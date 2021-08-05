@@ -214,7 +214,7 @@ const RegisterScreen = ({navigation}) => {
                         initialValue=''
                         required
                     /></KeyboardAvoidingView>
-                    <Trial />
+                    <Trial label='Date of Birth'/>
                     </ScrollView>
                     <View style={styles.ButtonContainer}>
                         <Button

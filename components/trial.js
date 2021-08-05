@@ -29,7 +29,8 @@ const Trial = props => {
   return (
     <View>
       <View style={styles.control}>
-        <Text>Date Of Birth:</Text>
+        <Text>{props.label}</Text>
+        {/* Date Of Birth: */}
         <TouchableOpacity onPress={showDatepicker}>
             <Text style={styles.selectText}>Click to select date</Text>
         </TouchableOpacity>
