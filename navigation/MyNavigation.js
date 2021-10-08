@@ -48,15 +48,15 @@ const AuthStack = () => {
     )
 };
 
-const CalenderTab = () => {
-    return (
-        <Tab.Navigator initialRouteName="CalenderScreen">
-            <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
-            <Stack.Screen name="ExpensesScreen" component={ExpensesScreen} />
-            <Stack.Screen name="AddExpensesScreen" component={AddExpensesScreen} />
-        </Tab.Navigator>
-    )
-};
+// const CalenderTab = () => {
+//     return (
+//         <Tab.Navigator initialRouteName="CalenderScreen">
+//             <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
+//             <Stack.Screen name="ExpensesScreen" component={ExpensesScreen} />
+//             <Stack.Screen name="AddExpensesScreen" component={AddExpensesScreen} />
+//         </Tab.Navigator>
+//     )
+// };
 
 const HomeStack = ({navigation}) => {
     return (
@@ -208,19 +208,105 @@ const BottomTabBar = ({navigation, state}) => (
     <BottomNavigation 
         selectedIndex={state.index} 
         onSelect={(index) => navigation.navigate(state.routeNames[index])} >
-        <BottomNavigationTab title="Create" />
         <BottomNavigationTab title="All Notes" />
+        <BottomNavigationTab title="Create" />
     </BottomNavigation>
 )
 
 const TabNavigator = () => (
     <Navigator tabBar ={(props) => <BottomTabBar {...props} />}>
-        <Screen name="Create" component={CreateNote} />
         <Screen name="AllNotes" component={AllNotes} />
+        <Screen name="Create" component={CreateNote} />
         <Screen name="Note" component={Note} />
     </Navigator>
 )
+
+const BottomTabBarCalend = ({navigation, state}) => (
+    <BottomNavigation 
+        selectedIndex={state.index} 
+        onSelect={(index) => navigation.navigate(state.routeNames[index])} >
+        <BottomNavigationTab title="Calender" />
+        <BottomNavigationTab title="Add Expenditures" />
+    </BottomNavigation>
+)
+
+const CalenderTab = () => (
+    <Navigator tabBar ={(props) => <BottomTabBarCalend {...props} />} initialRouteName="CalenderScreen">
+        <Screen name="CalenderStack" component={CalenderStack} />
+        <Screen name="AddExpensesStack" component={AddExpensesStack} />
+        <Screen name="ExpensesScreen" component={ExpensesScreen} />
+    </Navigator>
+    );
+
+    const CalenderStack = ({navigation}) => {
+        return (
+            <Stack.Navigator screenOptions={{
+                headerStyle: {
+                    backgroundColor: 'orange'
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                }
+            }}>
+                <Stack.Screen name="CalenderScreen" component={CalenderScreen} options={{
+                    headerTitleAlign: 'center',
+                    title: 'Calender',
+                    headerLeft: () => (
+                        <Icon.Button name='md-menu' size={30} 
+                        backgroundColor='orange' onPress={() => {navigation.openDrawer()}} />
+                    )
+                }} />
+            </Stack.Navigator>
+        )
+    };
+
+    // const ExpensesStack = ({navigation}) => {
+    //     return (
+    //         <Stack.Navigator screenOptions={{
+    //             headerStyle: {
+    //                 backgroundColor: 'orange'
+    //             },
+    //             headerTintColor: '#fff',
+    //             headerTitleStyle: {
+    //                 fontWeight: 'bold'
+    //             }
+    //         }}>
+    //             <Stack.Screen name="ExpensesScreen" component={ExpensesScreen} options={{
+    //                 headerTitleAlign: 'center',
+    //                 title: 'Expenses',
+    //                 // headerLeft: () => (
+    //                 //     <Icon.Button name='md-menu' size={30} 
+    //                 //     backgroundColor='orange' onPress={() => {navigation.openDrawer()}} />
+    //                 // )
+    //             }} />
+    //         </Stack.Navigator>
+    //     )
+    // };
  
+    const AddExpensesStack = ({navigation}) => {
+        return (
+            <Stack.Navigator screenOptions={{
+                headerStyle: {
+                    backgroundColor: 'orange'
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                }
+            }}>
+                <Stack.Screen name="AddExpensesScreen" component={AddExpensesScreen} options={{
+                    headerTitleAlign: 'center',
+                    title: 'Add Expenses',
+                    // headerLeft: () => (
+                    //     <Icon.Button name='md-menu' size={30} 
+                    //     backgroundColor='orange' onPress={() => {navigation.openDrawer()}} />
+                    // )
+                }} />
+            </Stack.Navigator>
+        )
+    };
+
 // const TabNavigator = () => {
 //     return (
 //         <Tab.Navigator initialRouteName="Create">

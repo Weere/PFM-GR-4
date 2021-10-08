@@ -28,10 +28,10 @@ export default function Note ({route}) {
     }
 
     return(
-        <View style={{ backgroundColor: "#222B45", flex: 1 }}>
-            <View style={styles.conTitle}>
-                <Text style={styles.title} category="h2">
-                    NOTE
+        <View style={{ backgroundColor: "orange", flex: 1 }}>
+            <View style={{margin: 10, marginTop: 30, justifyContent: 'center'}}>
+                <Text style={styles.title}  category="h3">
+                    NOTES
                 </Text>
             </View>
             <View style={styles.conBody}>
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center",
-        marginTop: 40
+        fontStyle: 'normal',
+        color: 'white'
     },
     notes: {
         fontSize: 24
@@ -70,10 +71,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         marginBottom: 30,
         alignItems: 'center'
-    },
-    conTitle: {
-        backgroundColor: 'orange',
-        flex: 1
     },
     conBody: {
         backgroundColor: 'white',

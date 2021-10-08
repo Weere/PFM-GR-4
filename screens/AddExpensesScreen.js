@@ -1,23 +1,53 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 import { useDispatch, useSelector } from 'react-redux';
 //import Selects from '../components/Selector';
 import * as categoriesActions from '../store/actions/categories';
-import Trial from '../components/trial';
+//import Trial from '../components/trial';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AddExpensesScreen = props => {
-    const categories = useSelector(state => state.category.avaialableCategories);
+
+    /////////////////////////////////////
+    const [id, setId] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    //const currentDate = selectedDate;
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+    
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+ 
+  const dateselected = date ? date.toString() : '';
+    ////////////////////////////////////////
     const dispatch = useDispatch();
 
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState('Bills');
     const [intialAmount, setIntiatalAmount] = useState('');
-    const [items, setItems] = useState('');
-    const [amount, setAmount] = useState('');
+    const [itemEntered, setItemEntered] = useState('');
+    const [amountEntered, setAmountEntered] = useState('');
     const [balance, setBalance] = useState(0);
 
-   const [enteredItems, setEnteredItems] = useState([]);
-   const [enteredAmount, setEnteredAmount] = useState([]);
+   const [items, setItems] = useState([]);
+   const [amount, setAmount] = useState([]);
    const [totalAmount, setTotalAmount] = useState(0);
 
    const data = [
@@ -26,70 +56,87 @@ const AddExpensesScreen = props => {
        'Shopping',
        'Transport',
     ];
-    
-    const addItem = () => {
-        console.log('hello');
-        setEnteredAmount(currentAmount => [...currentAmount, amount]);
-        setEnteredItems(currentItems => [...currentItems, items]);
-        const ret = +totalAmount;
-        const amt = +amount;
-        setTotalAmount(ret + amt);
-       // setBalance(intialAmount - ret);
-    };
-    
-    useEffect(() => {
-        setBalance(intialAmount - (+totalAmount));
-    }, [addItem])
 
-    const submitHandler = useCallback(() => {
-        //callback
-        setCategory(displayValue);
-        dispatch(
-            categoriesActions.createCategory(category, intialAmount, items, amount, balance)
-            );
-            console.log(category);
-            
-            //props.navigation.navigate("ExpensesScreen")
-        }, [dispatch, category, intialAmount, items, amount, balance]
-        );
-        
-        // useEffect(() => {
-            //     props.navigation.setParams({ submit: submitHandler });
-            // }, [submitHandler])
-            
     // { value: 'orchestra', label: 'Orchestra' } 
     // { value: 'blues', label: 'Blues' },
     // { value: 'rock', label: 'Rock' },
-    // { value: 'jazz', label: 'Jazz' },
+    // { value: 'jazz', label: 'Jazz' }
 
-    //const amount = "T.T Amount to be used";
+    useEffect(() => {
+        setCategory(data[selectedIndex.row]);
+        setId(dateselected);
+    }, )
+    
     const [selectedIndex, setSelectedIndex] = useState(new IndexPath(0));
-
-    const displayValue = data[selectedIndex.row];
 
     const renderOption = (title) => (
         <SelectItem title={title}/>
     );
 
-    //const totalItemAmount = 8000;
-    // setBalance(intialAmount)
-    //const balance = 56;
+    const addItem = () => {
+        
+        setAmount(currentAmount => [...currentAmount, amountEntered]);
+        setItems(currentItems => [...currentItems, itemEntered ]);
+        // { id: Math.random().toString(), value: itemEntered }
+        const ret = +totalAmount;
+        const amt = +amountEntered;
+        setTotalAmount(ret + amt);
+       // setBalance(intialAmount - ret);
+    };
+
+    useEffect(() => {
+        setBalance(intialAmount - (+totalAmount));
+    }, [addItem])
+
+    const submitHandler = useCallback(() => {
+        dispatch(
+            categoriesActions.createCategory(id, category, intialAmount, items, amount, balance, totalAmount)
+            );
+                        
+            props.navigation.navigate("ExpensesScreen")
+        }, [dispatch, id, category, intialAmount, items, amount, balance, totalAmount]
+        );
+
     return(
         <View style={{flex: 1}}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Add Expenditures</Text>
-            </View>
             <ScrollView>
                 <View style={styles.container}>
-                    <Trial label='Select Date' />
+                    {/* ///////////// */}
+                    <View>
+                        <View style={styles.control}>
+                            <TouchableOpacity onPress={showDatepicker}>
+                                <Text style={styles.selectText}>Click to select date</Text>
+                            </TouchableOpacity>
+                        
+                            <TouchableOpacity onPress={showTimepicker}>
+                                <Text style={styles.selectText}>Click to select time</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        {show ? (
+                            <DateTimePicker
+                            testID="dateTimePicker"
+                            value={date}
+                            mode={mode}
+                            is24Hour={true}
+                            display="spinner"
+                            onChange={onChange}
+                            />
+                        ) : <Text style={styles.textInput}>{dateselected}</Text>}
+                        
+                    </View>
+                    {/* ///////////// */}
+                    {/* <Trial label='Select Date' /> */}
                     <View  style={styles.controls}>
                         <Text style={styles.text}>Category:</Text>
                         <Layout style={styles.cont} level='1'>
                             <Select
                                 placeholder='Categories'
-                                value={displayValue}
+                                value={category}
                                 selectedIndex={selectedIndex}
-                                onSelect={index => setSelectedIndex(index)}>
+                                onSelect={index => {
+                                    setSelectedIndex(index)
+                                    }}>
                                 {data.map(renderOption)}
                             </Select>
                         </Layout>
@@ -97,10 +144,10 @@ const AddExpensesScreen = props => {
                     <View  style={styles.inputControl}>
                         <TextInput 
                             style={styles.input}
-                            placeholder='T.T Amount'
-                            onChangeText={text=> setIntiatalAmount(text) }
+                            placeholder='Intial Amount'
+                            onChangeText={text=> setIntiatalAmount(text)}
                             keyboardType="decimal-pad"
-                            value={intialAmount}
+                            value={String(intialAmount)}
                         />
                         <Button 
                             style={styles.button}
@@ -113,25 +160,26 @@ const AddExpensesScreen = props => {
                         <TextInput
                             style={styles.input}
                             placeholder='Enter item'
-                            onChangeText={text=> setItems(text)}
+                            onChangeText={text=> setItemEntered(text)}
                             keyboardType="default"
-                            value={items}
+                            value={String(itemEntered)}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder='Enter amout'
-                            onChangeText={text=> setAmount(text)}
+                            onChangeText={text=> setAmountEntered(text)}
                             keyboardType="number-pad"
-                            value={amount}
+                            value={String(amountEntered)}
                         />
                     </View>
                     <ScrollView>
                         <View style={styles.inputControl}>
                             <View style={styles.output}>
-                                {enteredItems.map((con) => <Text style={styles.text}>{con}</Text>)}
+                                {items.map((con) => <Text style={styles.text}>{con}</Text>)}
+                                {/* {items.map((con) => <Text key={con.idn} style={styles.text}>{con.value}</Text>)} */}
                             </View>
                             <View>
-                                {enteredAmount.map((cont) => <Text style={styles.text}>{cont}</Text>)}
+                                {amount.map((cont) => <Text style={styles.text}>{cont}</Text>)}
                             </View>
                         </View>
                     </ScrollView>
@@ -146,18 +194,7 @@ const AddExpensesScreen = props => {
                                 color='orange'
                             />
                         </View>
-                        {/* <FlatList 
-                            data={category}
-                            keyExtractor={item => item.id}
-                            renderItem={itemData => (
-                                <View>
-                                    <Text>{itemData.item.category}</Text>
-                                    <Text>{itemData.item.intialAmount}</Text>
-                                    <Text>{itemData.item.items}</Text>
-                                    <Text>{itemData.item.amount}</Text>
-                                </View>
-                            )}
-                        /> */}
+                        
                     </View>
                 </View>
             </ScrollView>
@@ -166,14 +203,9 @@ const AddExpensesScreen = props => {
 };
 
 const styles = StyleSheet.create({
-    header: {
-        width: '100%',
-        height: '15%',
-        backgroundColor: 'orange'
-    },
     container: {
         justifyContent: 'center',
-        margin: 20,
+        margin: 10,
         paddingVertical: 10,
 
         shadowColor: 'black',
@@ -183,7 +215,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderRadius: 10,
         backgroundColor: 'white',
-        width: '90%',
+        //width: '90%',
     },
     text: {
         textAlign: 'center',
@@ -224,6 +256,23 @@ const styles = StyleSheet.create({
         minHeight: 40,
         maxWidth: 150,
         backgroundColor: null
+    },
+    ///////
+    control: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+    },
+    textInput: {
+        textAlign: 'center',
+        paddingBottom: 25,
+        color: 'orange',
+        fontWeight: 'bold',
+        fontSize: 16
+    },
+    selectText: {
+        color: 'blue'
     }
 });
 

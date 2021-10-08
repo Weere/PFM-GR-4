@@ -1,13 +1,49 @@
 import { rgba } from 'jimp';
 import { opacity } from 'jimp';
-import React, {useState} from 'react'
-import { View, Text, TextInput, StyleSheet, Dimensions, ScrollView, ViewPropTypes } from 'react-native';
+import React, {useState, useEffect} from 'react'
+import { View, Text, TextInput, StyleSheet, Dimensions, ScrollView, TouchableOpacity, ViewPropTypes } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 import Trial from '../components/trial';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AnalysisScreen = props => {
 
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+    
+    const onChange = (event, selectedDate) => {
+        //const currentDate = selectedDate;
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate);
+    };
+    
+    const showMode = (currentMode) => {
+        setShow(true);
+        setMode(currentMode);
+    };
+    
+    const showDatepicker = () => {
+        showMode('date');
+    };
+    
+    const dateselected = date ? date.toString() : '';
+        ////////////////////////////////////////
+
+    
+        let dated = new Date(dateselected);
+        const milliseconds = Date.UTC(
+          dated.getFullYear(),
+          dated.getMonth(),
+          dated.getDate(),
+        );
+        const pickedDate = new Date(milliseconds);
+        const day = pickedDate.getDate() // local date
+        const month = pickedDate.getMonth() // local month
+        const year = pickedDate.getFullYear() // local yaer
+        
     const data = [
         'Daily',
         'Weekly',
@@ -16,11 +52,29 @@ const AnalysisScreen = props => {
 
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
 
-    const displayValue = data[selectedIndex.row];
+    //const displayValue = data[selectedIndex.row];
 
     const renderOption = (title) => (
         <SelectItem title={title}/>
     );
+
+    const [period, setPeriod] = useState('Daily');
+    const [deb, setBeb] = useState('10');
+    // const periodAmount = {
+    //     labels: lab,
+    //     datasets: dat
+    // }
+    useEffect(() => {
+        setPeriod(data[selectedIndex.row]);
+
+        if (period == 'Weekly') {
+            setBeb('Weekly');
+        } else if( period == 'Monthly' ) {
+            setBeb('Monthly');
+        } else {
+            setBeb('Daily');
+        }
+    }, )
 
     const periodAmount = {
         labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
@@ -48,28 +102,29 @@ const AnalysisScreen = props => {
                 <View style={styles.formComponent}>
                     <View style={styles.component}>
                         <Text style={styles.text}>Since:</Text>
-                        <TextInput 
-                            style={styles.input} 
-                            value={"datePk"} 
-                            onChangeText={() => {}}
-                            placeholder="DD/MM/YYYY" 
-                            keyboardType="default"
-                        />
-                        {/* <Trial /> */}
+
+                        {show ? (
+                            <DateTimePicker
+                            value={date}
+                            mode={mode}
+                            display="spinner"
+                            onChange={onChange}
+                            />
+                        ) : <Text style={styles.textInput}>{day} {month} {year}</Text>}
+                        <View style={styles.control}>
+                            <TouchableOpacity onPress={showDatepicker}>
+                                <Text style={{color: 'blue', paddingLeft: 10}}>Click to select date</Text>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
+                    
                     <View style={styles.component}>
                         <Text style={styles.text}>According To:</Text>
-                        {/* <TextInput 
-                            style={styles.input} 
-                            value={"period"} 
-                            onChangeText={() => {}}
-                            placeholder="Monthly" 
-                            keyboardType="default"
-                        /> */}
                         <Layout style={styles.cont}>
                             <Select
                                 placeholder='Period'
-                                value={displayValue}
+                                value={period}
                                 selectedIndex={selectedIndex}
                                 onSelect={index => setSelectedIndex(index)}>
                                 {data.map(renderOption)}
@@ -102,7 +157,8 @@ const AnalysisScreen = props => {
                             bezier
                             style={{
                                 marginVertical: 8,
-                                borderRadius: 16
+                                borderRadius: 16,
+                                paddingBottom: 10
                             }}
                         />
                     {/* </ScrollView> */}
@@ -131,14 +187,15 @@ const AnalysisScreen = props => {
                             bezier
                             style={{
                                 marginVertical: 8,
-                                borderRadius: 16
+                                borderRadius: 16,
+                                paddingBottom: 10
                             }}
                         />
                     {/* </ScrollView> */}
                 </View>
                 
                 <View style={styles.formComponent}>
-                    <Text style={styles.text}>Comment: Your progressing well.</Text>
+                    <Text style={styles.text}>Comment: {deb}Your progressing well.</Text>
                 </View>
             </View>
         </ScrollView>
@@ -172,8 +229,7 @@ const styles = StyleSheet.create({
         textAlign: 'justify',
         fontStyle: 'italic',
         fontWeight: "bold",
-        fontSize: 18,
-        paddingTop: 25
+        fontSize: 18
     },
     input: {
         borderWidth: 1,

@@ -5,6 +5,9 @@ import { View,  TextInput, StyleSheet, KeyboardAvoidingView, Platform, Dimension
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CreateNote () {
+    // const [header, setHeader] = useState("")
+    // const [body, setBody] = useState("")
+
     const [note, setNote] = useState("")
     const navigation = useNavigation()
 
@@ -26,6 +29,26 @@ export default function CreateNote () {
                 autoFocus
                 selectionColor='orange'
             />
+
+            
+            {/* <TextInput 
+                value={header}
+                onChangeText={setHeader}
+                style={{ color: 'white', fontSize: 22, borderBottomColor: 'white', borderBottomWidth: 1 }}
+                multiline={true}
+                autoFocus
+                selectionColor='orange'
+            />
+            <TextInput 
+                value={body}
+                onChangeText={setBody}
+                style={{ color: 'white', fontSize: 22, borderBottomColor: 'white', borderBottomWidth: 1 }}
+                multiline={true}
+                autoFocus
+                selectionColor='orange'
+            /> */}
+
+
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.bottom} >
                 <Button style={styles.button} appearance="filled" onPress={saveNote}>
                     Create Note

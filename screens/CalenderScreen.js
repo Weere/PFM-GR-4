@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Agenda, CalendarList } from 'react-native-calendars';
 import { Avatar, Card } from 'react-native-paper';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 // const timeToString = (time) => {
 //     const date = new Date(time);
@@ -11,8 +12,8 @@ import { Avatar, Card } from 'react-native-paper';
 const RANGE = 24;
 const initialDate = new Date();
 
-const CalenderScreen = ({navigation}) => {
-  const [selected, setSelected] = useState(initialDate);
+const CalenderScreen = ({ navigation }) => {
+  const [selected, setSelected] = useState(null);
   const markedDates = {
     [selected]: {
       selected: true,
@@ -21,27 +22,51 @@ const CalenderScreen = ({navigation}) => {
       selectedTextColor: 'white'
     }
   };
-  
-  const onDayPress = day => {
-    setSelected(day.dateString);
-    navigation.navigate("ExpensesScreen")
+  //const navigation = useNavigation();
+  const onDayPress = ({ day, id }) => {
+    //setSelected(day.dateString);
+    setSelected(day);
   };
 
+  useEffect(() => {
+    if (!selected) {
+      navigation.navigate("CalenderStack");
+    } else {
+      navigation.navigate("ExpensesScreen", { selectedDay: selected });
+    }
+  }, [onDayPress]);
+
   return (
-    <View style={{flex: 1}}>
-    <CalendarList
-      //testID={testIDs.calendarList.CONTAINER}
-      current={initialDate}
-      pastScrollRange={RANGE}
-      futureScrollRange={RANGE}
-      renderHeader={renderCustomHeader}
-      theme={theme}
-      onDayPress={onDayPress}
-      markedDates={markedDates}
-      horizontal
-      pagingEnabled
-      hideArrows={true}
-    /></View>
+    <ScrollView>
+      <View style={{ flex: 1 }}>
+        <CalendarList
+          style={styles.calend}
+          //testID={testIDs.calendarList.CONTAINER}
+          current={initialDate}
+          pastScrollRange={RANGE}
+          futureScrollRange={RANGE}
+          renderHeader={renderCustomHeader}
+          theme={theme}
+          onDayPress={onDayPress}
+          markedDates={markedDates}
+          horizontal
+          pagingEnabled
+          hideArrows={true}
+          hideExtraDays={false}
+        />
+        <View>
+          <Text style={{ paddingLeft: 10, paddingVertical: 10, fontWeight: 'bold', fontSize: 16 }}>Remainders</Text>
+        </View>
+        <View>
+          <Text style={{ paddingLeft: 10, color: 'grey' }}>Bills</Text>
+          <Text style={{ paddingLeft: 10 }}>Sun Feb 22 2010 00:00:00 GMT+0300 (EAT)</Text>
+        </View>
+        <View>
+          <Text style={{ paddingLeft: 10, color: 'grey' }}>Shopping</Text>
+          <Text style={{ paddingLeft: 10 }}>Sun Jan 01 2020 00:00:00 GMT+0300 (EAT)</Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -70,8 +95,8 @@ function renderCustomHeader(date) {
   const textStyle = {
     fontSize: 18,
     fontWeight: 'bold',
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 1,
+    paddingBottom: 1,
     color: '#5E60CE',
     paddingRight: 5
   };
@@ -86,12 +111,15 @@ function renderCustomHeader(date) {
 
 
 const styles = StyleSheet.create({
+  calend: {
+    height: 350
+  },
   header: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
-    marginTop: 10,
-    marginBottom: 10
+    marginTop: 5,
+    marginBottom: 5
   },
   month: {
     marginLeft: 5

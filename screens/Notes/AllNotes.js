@@ -3,6 +3,7 @@ import { useFocusEffect ,useNavigation } from '@react-navigation/native'
 import { Button, Divider, List, ListItem, Text } from '@ui-kitten/components'
 import { View, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/Ionicons';
  //import AsyncStorage from 'react-native';
 //import { Divider } from 'react-native-paper';
 
@@ -38,9 +39,15 @@ export default function AllNotes () {
             //backgroundColor: "#222B55",
             backgroundColor: 'orange', 
             flex: 1 }}>
-            <Text style={styles.title} category="h2">
+            
+            <View style={{margin: 10, marginTop: 30, flexDirection: 'row'}}>
+                <Icon.Button name='md-menu' size={30} 
+                            backgroundColor='orange' 
+                            onPress={() => {navigation.openDrawer()}} />
+                <Text style={styles.title}  category="h3">
                 NOTES
             </Text>
+            </View>
             <List 
                 style={styles.container}
                 data={notes}
@@ -60,9 +67,9 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center",
-        marginTop: 35,
         fontStyle: 'normal',
-        paddingBottom: 5
+        color: 'white',
+        paddingLeft: 50
     },
     notes: {
         fontSize: 24

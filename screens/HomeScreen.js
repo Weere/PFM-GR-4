@@ -1,10 +1,19 @@
 import React, {useState} from 'react'
-import { View, Text, TextInput,StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput,StyleSheet, ScrollView, Image } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
+import { SliderBox } from 'react-native-image-slider-box';
 //import SlideshowTest from '../components/ImageSlider';
 //import Onboarding from '../components/onboarding';
 
 const HomeScreen = props => {
+    const images = [
+        require('../assets/photes/cloth.jpg'),
+        require('../assets/photes/derik.jpg'),
+        'https://placeimg.com/640/480/any',
+        require('../assets/photes/eric.jpg'),
+        require('../assets/photes/wray.jpg')
+    ]
+
     const pieData = [
         {
             name: 'Shopping',
@@ -54,9 +63,39 @@ const HomeScreen = props => {
         <ScrollView>
             <View style={styles.container}>
             <View style={styles.inspiration}>
-                <Text>Inspirational messages</Text>
-                {/* <SlideshowTest /> */}
+                {/* <Text>Inspirational messages</Text> */}
                 {/* <Onboarding /> */}
+                <SliderBox 
+                    images={images}
+                    sliderBoxHeight={200}
+                    imageComponent={Image}
+                    inactiveDotColor="#90A4AE"
+                    dotColor="#FFEE58"
+                    paginationBoxVerticalPadding={20}
+                    autoplay={true}
+                    circleLoop
+                    //resizeMethod={'resize'}
+                    //resizeMode={'cover'}
+                    //imageComponentStyle={{borderRadius: 15, width: '100%'}}
+                    imageLoadingColor="#2196F3"
+                    dotStyle={{
+                        width: 15,
+                        height: 15,
+                        borderRadius: 15,
+                        marginHorizontal: 10,
+                        padding: 0,
+                        margin: 0
+                    }}
+                    paginationBoxStyle={{
+                        position: 'absolute',
+                        bottom: 0,
+                        padding: 0,
+                        alignItems: "center",
+                        alignSelf: "center",
+                        justifyContent: "center",
+                        paddingVertical: 10,
+                      }}
+                />
             </View>
             <View style={styles.fields}>
                 <Text style={styles.title}>Hey Wray Dray,</Text>
@@ -103,18 +142,18 @@ const styles = StyleSheet.create({
     },
     inspiration: {
         shadowColor: 'black',
-        shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
+        shadowOpacity: 0.36,
+        shadowOffset: { width: 0, height: 3 },
+        shadowRadius: 18,
         elevation: 5,
-        borderRadius: 10,
+        borderRadius: 15,
        // backgroundColor: 'white',
-        width: '90%',
-        height: 160,
+        //width: '95%',
+        height: 200,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'orange',
-        flex: 1
+        //flex: 1
     },
     fields: {
         margin: 10,
@@ -127,7 +166,7 @@ const styles = StyleSheet.create({
     },
     text: {
         alignItems: 'center',
-        paddingBottom: 10,
+        paddingBottom: 5,
         fontSize: 15
     },
     title: {

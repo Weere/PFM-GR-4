@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Slideshow from 'react-native-slideshow';
 import PropTypes from 'prop-types'
 
-export default class SlideshowTest extends Component {
-  constructor(props) {
-    super(props);
- 
-    this.state = {
-      position: 1,
-      interval: null,
-      dataSource: [
+const SlideshowTest = props => {
+  const [position, setPosition] = useState(1);
+  const [interval, setInterval] = useState(null);
+  const dataSource = [
         {
           title: 'Title 1',
           caption: 'Caption 1',
@@ -23,30 +19,24 @@ export default class SlideshowTest extends Component {
           caption: 'Caption 3',
           url: 'http://placeimg.com/640/480/any',
         },
-      ],
-    };
-  }
+      ]
+    
+    useEffect(() => {
+      setInterval({position: position === dataSource.length ? 0 : position + 1})
+  }, [2000])
+
  
-  componentWillMount() {
-    this.setState({
-      interval: setInterval(() => {
-        this.setState({
-          position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
-        });
-      }, 2000)
-    });
-  }
+  // componentWillUnmount() {
+  //   clearInterval(this.state.interval);
+  // }
  
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
-  }
- 
-  render() {
     return (
     <Slideshow 
-        dataSource={this.state.dataSource}
-        position={this.state.position}
-        onPositionChanged={position => this.setState({ position })} />
+        data={dataSource}
+        position={position}
+        onPositionChanged={position => setPosition({ position })} />
     );
-  }
 }
+
+
+export default SlideshowTest;

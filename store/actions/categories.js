@@ -5,11 +5,11 @@ export const CREATE_CATEGORY = 'CREATE_CATEGORY';
 //     return { type: DELETE_PRODUCT, pid: productId };
 //   };
 
-export const createCategory = (category, intialAmount, items, amount, balance) => {
+export const createCategory = (id, category, intialAmount, items, amount, balance, totalAmount) => {
     return{
         type: CREATE_CATEGORY,
         categoryData: {
-            category, intialAmount, items, amount, balance
+            id, category, intialAmount, items, amount, balance, totalAmount
         }
     };
 };

@@ -1,100 +1,170 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
+import { useSelector } from 'react-redux';
+import * as categoriesActions from '../store/actions/categories';
 import { View, Text, Button, TouchableOpacity, ScrollView, FlatList, StyleSheet } from 'react-native';
+//import ExpenseOutput from '../components/ExpenseOutput';
+import Icon from 'react-native-vector-icons/Ionicons';
+import CATEGORIES from '../data/Categories';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect ,useNavigation } from '@react-navigation/native'
 
-const ExpensesScreen = props => {
-    const [showDetails, setShowDetails] = useState(false);
-    return(
-        <ScrollView >
-        <View style={styles.container}>
-            <View style={styles.control}>
-                <View style={styles.category}>
-                    <Text style={styles.text}>Shopping</Text>
-                    <Text style={styles.text}>5000</Text>
-                    <Button 
-                        style={styles.Button}
-                        title={showDetails ? 'Hide Details' : 'Show Details'}
-                        onPress={() => {
-                            setShowDetails(prevState => !prevState);
-                        }} 
-                    />
-                </View>
-                {showDetails && (
-                    <View>
-                        <View style={styles.items}>
-                            <Text style={styles.text}>Clothes</Text>
-                            <Text style={styles.text}>2500</Text>
+function ExpensesScreen({route, navigation}) {
+    const { selectedDay } = route.params;
+    const [value, setValues] = useState([])
+    const categories = useSelector(state => state.category.avaialableCategories);  
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         categories()
+    //     }, [])
+    // )
+    // const categories = () => {
+    //     AsyncStorage.getItem(CATEGORIES).then((value) => {
+    //         setValues(JSON.parse(value))
+    //     })
+    // }
+    
+    ///////////////////////////
+ //const productId = props.navigation.getParam('productId');
+
+    const dateString = 'Wed Aug 05 2021 06:35:45 GMT+0300 (EAT)';
+    
+        let date = new Date(dateString);
+        const milliseconds = Date.UTC(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          date.getHours(),
+          date.getMinutes(),
+          date.getSeconds(),
+        );
+        const localTime = new Date(milliseconds);
+        localTime.getDate() // local date
+        const num = localTime.getSeconds() // local hour
+      
+    //////////////////////////////////
+    // const saveHandler = useCallback(() => {
+    //     dispatch(
+    //         categoriesActions.createCategory(category, intialAmount, items, amount, balance)
+    //         );
+                        
+    //     props.navigation.navigate("ExpensesStack");
+
+    // }, [dispatch, category, intialAmount, items, amount, balance]
+    // );
+
+    const ExpenseOutput = ({ cat, intial, comm, amt, idnt, ttamt, bal }) => {
+
+        const [showDetails, setShowDetails] = useState(false);
+
+        return (
+            <ScrollView >
+                <View style={styles.contain}>
+                    <View style={styles.control}>
+                        <View style={styles.category}>
+                            <Text style={styles.text}>{cat}</Text>
+                            <Text style={styles.text}>{ttamt}</Text>
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={()=>{}}
+                                onPress={()=>{setShowDetails(prevState => !prevState);}}
                             >
-                                <Text>Done</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={()=>{}}
-                            >
-                                <Text>Delete</Text>
+                                <Text style={{color: 'orange', fontWeight: 'bold', fontSize: 17}}>{showDetails ? 'Hide Details' : 'Show Details'}</Text>
                             </TouchableOpacity>
                         </View>
+                        {showDetails && (
+                            <View>
+                                <View style={styles.items}>
+                                        <Text style={styles.text}>{comm}</Text>
+                                        <Text style={styles.text}>{amt}</Text>
+                                    {/* <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={()=>{}}
+                                    >
+                                        <Text style={{color: 'orange', fontWeight: 'bold', fontSize: 15}}>Done</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={()=>{}}
+                                    >
+                                        <Text style={{color: 'red', fontWeight: 'bold', fontSize: 15}}>Delete</Text>
+                                    </TouchableOpacity> */}
+                                </View>
+                                <View style={styles.category}>
+                                    <View style={{flexDirection: 'row'}}>
+                                        <Text>Intial Amont: </Text>
+                                        <Text>{intial}</Text>
+                                    </View>
+                                    <View style={{flexDirection: 'row'}}>
+                                        <Text>Balance: </Text>
+                                        <Text>{bal}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        )}
+                        <Text style={{paddingVertical: 10, color: 'grey'}}>{idnt}</Text>
                         <View style={styles.items}>
-                            <Text style={styles.text}>Food</Text>
-                            <Text style={styles.text}>2500</Text>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={()=>{}}
-                            >
-                                <Text>Done</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={()=>{}}
-                            >
-                                <Text>Delete</Text>
-                            </TouchableOpacity>
+                            <View style={{marginHorizontal: 30}}>
+                                <Button 
+                                    style={styles.Button}
+                                    color='orange'
+                                    title={'Save'}
+                                    onPress={() => {}} 
+                                />
+                            </View>
+                            <View style={{marginHorizontal: 30}}>
+                                <Button 
+                                    style={styles.Button}
+                                    color='red'
+                                    title={'Delete'}
+                                    onPress={() => {}} 
+                                />
+                            </View>
                         </View>
                     </View>
-                )}
-                
-            </View>
-            <View style={styles.control}>
-                <View style={styles.category}>
-                    <Text style={styles.text}>Bills</Text>
-                    <Text style={styles.text}>5000</Text>
-                    <Button 
-                        style={styles.Button}
-                        title={showDetails ? 'Hide Details' : 'Show Details'}
-                        onPress={() => {
-                            setShowDetails(prevState => !prevState);
-                        }} 
-                    />
                 </View>
-                {showDetails && ( 
-                    <View style={styles.items}>
-                    <Text style={styles.text}>water</Text>
-                    <Text style={styles.text}>2500</Text>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={()=>{}}
-                    >
-                        <Text>Done</Text>
-                    </TouchableOpacity><TouchableOpacity
-                        style={styles.button}
-                        onPress={()=>{}}
-                    >
-                        <Text>Delete</Text>
-                    </TouchableOpacity>
-                </View>
-                )}
-                
-            </View>
-        </View>
-        </ScrollView>
-    );
-};
+            </ScrollView>
+        );
+    }
 
+    return(
+        <View style={styles.container}>
+            <View style={{margin: 15, paddingLeft: 10, marginTop: 30, flexDirection: "row", backgroundColor: 'orange', alignItems: 'center', borderRadius: 10}}>
+                <Icon.Button name='md-menu' size={30} 
+                    backgroundColor='orange' 
+                    onPress={() => {navigation.openDrawer()}} 
+                />
+                <Text style={{color: 'white'}}>{selectedDay}</Text>
+            </View>
+            <FlatList 
+                //style={styles.listItem}
+                data={categories}
+                keyExtractor={(item, index) => item.id}
+                renderItem={
+                    itemData => <ExpenseOutput 
+                        cat={itemData.item.category}
+                        intial={itemData.item.intialAmount}
+                        comm={itemData.item.items}
+                        amt={itemData.item.amount}
+                        idnt={itemData.item.id}
+                        ttamt={itemData.item.totalAmount}
+                        bal={itemData.item.balance}
+                    />
+                }
+            />
+            
+        </View>
+        );
+    };
+    
 const styles = StyleSheet.create({
     container: {
-        margin: 20,
+        flex: 1
+    },
+    listItem: {
+        flex: 1
+    },
+    contain: {
+        marginVertical: 10,
+        marginHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -123,7 +193,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     text: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         paddingVertical: 10
     },
     Button: {

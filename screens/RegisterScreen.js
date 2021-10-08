@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback, useReducer} from 'react'
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet,TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import Trial from '../components/trial';
 //import { dateselected } from '../components/trial';
@@ -38,6 +39,31 @@ const RegisterScreen = ({navigation}) => {
     // const [isLoading, setIsLoading] = useState(false);
     // const [error, setError] = useState();
 
+    /////
+    const [date, setDate] = useState(new Date(2000, 0, 1));
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+  
+    const onChange = (event, selectedDate) => {
+      //const currentDate = selectedDate;
+      const currentDate = selectedDate || date;
+      setShow(Platform.OS === 'ios');
+      setDate(currentDate);
+      
+    };
+  
+    const showMode = (currentMode) => {
+      setShow(true);
+      setMode(currentMode);
+    };
+  
+    const showDatepicker = () => {
+      showMode('date');
+    };
+   
+    const dateselected = date.toString();
+    /////
+
     const dispatch = useDispatch();
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -45,7 +71,7 @@ const RegisterScreen = ({navigation}) => {
             userName: '', 
             telNo: '', 
             email: '', 
-            // date: Trial.dateselected,
+            //date: dateselected,
             income: '', 
             occupation: '',
             password: ''
@@ -69,19 +95,20 @@ const RegisterScreen = ({navigation}) => {
             );
             return;
         }
+
         if (!formState.formIsValid) {
             Alert.alert(
                 'Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }]
             );
             return;
         }
-        console.log(formState);
     
         dispatch(
             userActions.createUser(
                 formState.inputValues.userName, 
                 formState.inputValues.telNo, 
-                formState.inputValues.date, 
+                dateselected,
+                //formState.inputValues.date, 
                 formState.inputValues.email, 
                 formState.inputValues.income,
                 formState.inputValues.occupation, 
@@ -89,7 +116,7 @@ const RegisterScreen = ({navigation}) => {
             )
         ); 
         navigation.goBack();
-    }, [ dispatch, formState ]
+    }, [ dispatch, formState, dateselected ]
     );
 
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
@@ -103,135 +130,140 @@ const RegisterScreen = ({navigation}) => {
 
     return(
         <View style={{ flex: 1 }}>
-               
-        <View style={styles.container}>
-            <View style={styles.form}>
-        <ScrollView><KeyboardAvoidingView behavior="padding"
-            keyboardVerticalOffset={50}>
-                    <InputCustom
-                        id='userName'
-                        label='Name:'
-                        errorText='Please enter a valid name!'
-                        placeholder="Your Name" 
-                        keyboardType="default"
-                        autoCapitalize='words'
-                        returnKeyType='next'
-                        onInputChange={inputChangeHandler}
-                        initialValue=''
-                        required
-                        // initiallyValid = {false}
-                    />
-                    <InputCustom
-                        id='telNo'
-                        label='Phone Number:'
-                        errorText='Please enter a valid phone number!'
-                        placeholder="256*******" 
-                        keyboardType="decimal-pad"
-                        returnKeyType='next'
-                        onInputChange={inputChangeHandler}
-                        num
-                        initialValue=''
-                        required
-                    />
-                    <InputCustom
-                        id='email'
-                        label='Email:'
-                        errorText='Please enter a valid email!'
-                        placeholder="Your Email" 
-                        keyboardType="email-address"
-                        autoCapitalize='none'
-                        returnKeyType='next'
-                        onInputChange={inputChangeHandler}
-                        email
-                        initialValue=''
-                        required
-                    />         
-                    {/* <InputCustom
-                        id='date'
-                        label='Date Of Birth:'
-                        errorText='Please enter a valid date!'
-                        placeholder="dd/mm/yyyy" 
-                        keyboardType="default"
-                        autoCapitalize='none'
-                        returnKeyType='next'
-                        onInputChange={inputChangeHandler}
-                        editable={false}
-                        initialValue=''
-                        required
-                    />  */}
-                    <InputCustom
-                        id='income'
-                        label='Income:'
-                        errorText='Please enter a valid amount!'
-                        placeholder="Monthly" 
-                        keyboardType="decimal-pad"
-                        autoCapitalize='none'
-                        returnKeyType='next'
-                        onInputChange={inputChangeHandler}
-                        min={0.1}
-                        num
-                        initialValue=''
-                        required
-                    />
-                    <InputCustom
-                        id='occupation'
-                        label='Occupation:'
-                        errorText='Please enter a valid occupation!'
-                        placeholder="Your occupation" 
-                        keyboardType="default"
-                        autoCapitalize='words'
-                        returnKeyType='next'
-                        onInputChange={inputChangeHandler}
-                        initialValue=''
-                        required
-                        // initiallyValid = {false}
-                    />
-                    <InputCustom
-                        id='password'
-                        label='Password:'
-                        errorText='Please enter a valid password!'
-                        placeholder="Password" 
-                        keyboardType="default"
-                        autoCapitalize='none'
-                        returnKeyType='next'
-                        onInputChange={inputChangeHandler}
-                        secureTextEntry
-                        minLength={4}
-                        initialValue=''
-                        required
-                    />
-                    <InputCustom
-                        id='password1'
-                        label='Confirm Password:'
-                        errorText='Please enter a valid password!'
-                        placeholder="Password" 
-                        keyboardType="default"
-                        autoCapitalize='none'
-                        returnKeyType='next'
-                        onInputChange={inputChangeHandler}
-                        secureTextEntry
-                        minLength={4}
-                        initialValue=''
-                        required
-                    /></KeyboardAvoidingView>
-                    <Trial label='Date of Birth'/>
+            <View style={styles.container}>
+                <View style={styles.form}>
+                    <ScrollView>
+                        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50}>
+                            <InputCustom
+                                id='userName'
+                                label='Name:'
+                                errorText='Please enter a valid name!'
+                                placeholder="Your Name" 
+                                keyboardType="default"
+                                autoCapitalize='words'
+                                returnKeyType='next'
+                                onInputChange={inputChangeHandler}
+                                initialValue=''
+                                required
+                                // initiallyValid = {false}
+                            />
+                            <InputCustom
+                                id='telNo'
+                                label='Phone Number:'
+                                errorText='Please enter a valid phone number!'
+                                placeholder="256*******" 
+                                keyboardType="decimal-pad"
+                                returnKeyType='next'
+                                onInputChange={inputChangeHandler}
+                                num
+                                initialValue=''
+                                required
+                            />
+                            <InputCustom
+                                id='email'
+                                label='Email:'
+                                errorText='Please enter a valid email!'
+                                placeholder="Your Email" 
+                                keyboardType="email-address"
+                                autoCapitalize='none'
+                                returnKeyType='next'
+                                onInputChange={inputChangeHandler}
+                                email
+                                initialValue=''
+                                required
+                            />
+                            <InputCustom
+                                id='income'
+                                label='Income:'
+                                errorText='Please enter a valid amount!'
+                                placeholder="Monthly" 
+                                keyboardType="decimal-pad"
+                                autoCapitalize='none'
+                                returnKeyType='next'
+                                onInputChange={inputChangeHandler}
+                                min={0.1}
+                                num
+                                initialValue=''
+                                required
+                            />
+                            <InputCustom
+                                id='occupation'
+                                label='Occupation:'
+                                errorText='Please enter a valid occupation!'
+                                placeholder="Your occupation" 
+                                keyboardType="default"
+                                autoCapitalize='words'
+                                returnKeyType='next'
+                                onInputChange={inputChangeHandler}
+                                initialValue=''
+                                //required
+                                // initiallyValid = {false}
+                            />
+                            <InputCustom
+                                id='password'
+                                label='Password:'
+                                errorText='Please enter a valid password!'
+                                placeholder="Password" 
+                                keyboardType="default"
+                                autoCapitalize='none'
+                                returnKeyType='next'
+                                onInputChange={inputChangeHandler}
+                                secureTextEntry
+                                minLength={4}
+                                initialValue=''
+                                required
+                            />
+                            <InputCustom
+                                id='password1'
+                                label='Confirm Password:'
+                                errorText='Please enter a valid password!'
+                                placeholder="Password" 
+                                keyboardType="default"
+                                autoCapitalize='none'
+                                returnKeyType='next'
+                                onInputChange={inputChangeHandler}
+                                secureTextEntry
+                                minLength={4}
+                                initialValue=''
+                                required
+                            />
+                            <View>
+                                <View style={styles.control}>
+                                    <Text>Date of Birth</Text>
+                                    <TouchableOpacity onPress={showDatepicker}>
+                                        <Text style={{color: 'blue'}}>Click to select date</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                
+                                {show ? (
+                                    <DateTimePicker
+                                    value={date}
+                                    mode={mode}
+                                    is24Hour={true}
+                                    display="default"
+                                    onChange={onChange}
+                                    />
+                                ) : <Text style={styles.textInput}>{dateselected}</Text>}
+                                
+                            </View>
+                        </KeyboardAvoidingView>
+                        <View style={styles.ButtonContainer}>
+                            <Button
+                                //color='blue'
+                                styles={styles.Button}
+                                title='Sign Up'
+                                onPress={ submitHandler }
+                            />
+                            <View style={styles.space} />
+                            <Button 
+                                color='orange'
+                                styles={styles.Button}
+                                title='Switch to Login'
+                                onPress={ ()=>navigation.navigate("LoginScreen") }
+                            />
+                        </View>
                     </ScrollView>
-                    <View style={styles.ButtonContainer}>
-                        <Button
-                            //color='blue'
-                            styles={styles.Button}
-                            title='Sign Up'
-                            onPress={ submitHandler }
-                        />
-                        <View style={styles.space} />
-                        <Button 
-                            color='orange'
-                            styles={styles.Button}
-                            title='Switch to Login'
-                            onPress={ ()=>navigation.navigate("LoginScreen") }
-                        />
-                    </View>
-            </View>
+                </View>
             </View>
         </View>
     );
@@ -261,7 +293,20 @@ const styles = StyleSheet.create({
     },
     space: {
         height: 10
-    }     
+    },
+    control: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+    },     
+    textInput: {
+        textAlign: 'center',
+        paddingBottom: 25,
+        color: 'orange',
+        fontWeight: 'bold',
+        fontSize: 15
+    },
   });
 
 export default RegisterScreen;

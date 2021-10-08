@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useCallback, useReducer} from 'react'
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, TextInput, Button, StyleSheet, ScrollView, KeyboardAvoidingView, Alert, } from 'react-native';
+import{ Avatar, Text } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux';
 
 import Trial from '../components/trial';
@@ -107,9 +108,16 @@ const ProfileScreen = ({navigation}) => {
                 <View style={styles.form}>
                 
                     <ScrollView>
+                        <View style={{ alignItems: "center" }}>
+                            <Avatar.Text
+                                label='ED'
+                                size={100}
+                                />
+                        </View>
                         <KeyboardAvoidingView behavior="height" 
                             keyboardVerticalOffset={50}
                             >
+                                    
                                 <InputCustom
                                     id='userName'
                                     label='Name:'
@@ -217,7 +225,7 @@ const ProfileScreen = ({navigation}) => {
                                     required
                                 />
                         </KeyboardAvoidingView>
-                        <Trial />
+                        <Trial label='Date of Birth'/>
                     
                    
                     <View style={styles.ButtonContainer}>
