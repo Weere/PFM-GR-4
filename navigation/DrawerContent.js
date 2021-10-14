@@ -33,10 +33,14 @@ export function DrawerContent(props) {
                                 }}
                                 size={50}
                             /> */}
-                            <Avatar.Text
-                                label='ED'
+                            <Avatar.Image 
+                                source={require('../assets/photes/derik.jpg')}
                                 size={50}
                             />
+                            {/* <Avatar.Text
+                                label='ED'
+                                size={50}
+                            /> */}
                             <View style={{marginLeft: 15, flexDirection: 'column'}}>
                                 <Title style={styles.title} >Edwin Dray</Title>
                                 <Caption style={styles.caption} >@wraydray</Caption>

@@ -48,6 +48,7 @@ const AnalysisScreen = props => {
         'Daily',
         'Weekly',
         'Monthly',
+        'Yearly'
     ];
 
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
@@ -71,6 +72,8 @@ const AnalysisScreen = props => {
             setBeb('Weekly');
         } else if( period == 'Monthly' ) {
             setBeb('Monthly');
+        } else if( period == 'Yearly' ) {
+            setBeb('Yearly');
         } else {
             setBeb('Daily');
         }

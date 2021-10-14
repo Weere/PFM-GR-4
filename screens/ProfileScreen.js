@@ -109,10 +109,14 @@ const ProfileScreen = ({navigation}) => {
                 
                     <ScrollView>
                         <View style={{ alignItems: "center" }}>
-                            <Avatar.Text
+                            {/* <Avatar.Text
                                 label='ED'
                                 size={100}
-                                />
+                                /> */}
+                            <Avatar.Image 
+                                source={require('../assets/photes/derik.jpg')}
+                                size={100}
+                            />
                         </View>
                         <KeyboardAvoidingView behavior="height" 
                             keyboardVerticalOffset={50}
