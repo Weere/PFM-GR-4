@@ -3,17 +3,17 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
 
 const TransactionScreen = props => {
-    
+    const jeric = ['Clothes', ' Bed']
     const Content = {
-        tableHead: [ 'Date','Item', 'Category', 'Intial Amount', 'Amount Spent', 'Balance'],
+        tableHead: [ 'Date', 'Category', 'Item', 'Intial Amount', 'Amount Spent', 'Balance'],
         widthArr: [80, 80, 80, 80, 80, 80],
         tableData: [
-            [ '20/05/2020', 'Clothes', 'Shopping', 9000, 8000, 1000 ],
-            [ '9/12/2020', 'Water', 'Bills', 50000, 48000, 2000 ],
+            [ '20/05/2020', 'Shopping', jeric, 9000, 8000, 1000 ],
+            [ '9/12/2020', 'Bills', 'Water', 50000, 48000, 2000 ],
             [ '1/05/2020', 'Transport', 'Transport', 8000, 8000, 0 ],
-            [ '24/03/2020', 'Food', 'Shopping', 5000, 8000, -31000 ],
-            [ '11/05/2020', 'Fees', 'Others', 1600, 1400, 200 ],
-            [ '30/05/2020', 'Electricity', 'Bills', 9000, 8000, 1000 ]
+            [ '24/03/2020', 'Shopping', 'Food', 5000, 8000, -31000 ],
+            [ '11/05/2020', 'Others', 'Fees', 1600, 1400, 200 ],
+            [ '30/05/2020', 'Bills', 'Electricity', 9000, 8000, 1000 ]
         ]
     };
 
