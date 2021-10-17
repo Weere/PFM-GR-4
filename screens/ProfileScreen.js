@@ -118,9 +118,9 @@ const ProfileScreen = ({navigation}) => {
                                 size={100}
                             />
                         </View>
-                        <KeyboardAvoidingView behavior="height" 
-                            keyboardVerticalOffset={50}
-                            >
+                            {/* <KeyboardAvoidingView behavior="height" 
+                                keyboardVerticalOffset={50}
+                                > */}
                                     
                                 <InputCustom
                                     id='userName'
@@ -228,9 +228,9 @@ const ProfileScreen = ({navigation}) => {
                                     initialValue=''
                                     required
                                 />
-                        </KeyboardAvoidingView>
-                        <Trial label='Date of Birth'/>
-                    
+                        
+                                <Trial label='Date of Birth'/>
+                            {/* </KeyboardAvoidingView> */}
                    
                     <View style={styles.ButtonContainer}>
                         <View style={{width: 100}}>
