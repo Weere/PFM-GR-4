@@ -8,7 +8,7 @@ import CATEGORIES from "../../data/Categories";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const intialState = {
-  avaialableCategories: CATEGORIES,
+  avaialableCategories: [], //CATEGORIES,
 };
 
 export default (state = intialState, action) => {
@@ -26,7 +26,8 @@ export default (state = intialState, action) => {
         action.categoryData.items,
         action.categoryData.amount,
         action.categoryData.balance,
-        action.categoryData.totalAmount
+        action.categoryData.totalAmount,
+        action.categoryData.ownerId
       );
       const saveCategory = async () => {
         const value = await AsyncStorage.getItem(CATEGORIES);

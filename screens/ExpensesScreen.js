@@ -11,7 +11,6 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-//import ExpenseOutput from '../components/ExpenseOutput';
 import Icon from "react-native-vector-icons/Ionicons";
 import CATEGORIES from "../data/Categories";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,6 +19,8 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 function ExpensesScreen({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const { selectedDay } = route.params;
   const [value, setValues] = useState([]);
   const categories = useSelector(
@@ -29,37 +30,27 @@ function ExpensesScreen({ route, navigation }) {
 
   const loadedCategories = useCallback(async () => {
     setError(null);
-    setIsLoading(true);
+    setIsRefreshing(true);
     try {
       await dispatch(categoriesActions.fetchCategories());
     } catch (err) {
       setError(err.message);
     }
-    setIsLoading(false);
+    setIsRefreshing(false);
   }, [dispatch, setIsLoading, setError]);
 
   useEffect(() => {
     const willFocusSub = navigation.addListener("focus", loadedCategories);
 
-    return () => {
-      willFocusSub.remove();
-    };
+    return willFocusSub;
   }, [loadedCategories]);
 
   useEffect(() => {
-    loadedCategories();
+    setIsLoading(true);
+    loadedCategories().then(() => {
+      setIsLoading(false);
+    });
   }, [dispatch, loadedCategories]);
-
-  // useFocusEffect(
-  //     React.useCallback(() => {
-  //         categories()
-  //     }, [])
-  // )
-  // const categories = () => {
-  //     AsyncStorage.getItem(CATEGORIES).then((value) => {
-  //         setValues(JSON.parse(value))
-  //     })
-  // }
 
   ///////////////////////////
   //const productId = props.navigation.getParam('productId');
@@ -79,18 +70,7 @@ function ExpensesScreen({ route, navigation }) {
   localTime.getDate(); // local date
   const num = localTime.getSeconds(); // local hour
 
-  //////////////////////////////////
-  // const saveHandler = useCallback(() => {
-  //     dispatch(
-  //         categoriesActions.createCategory(category, intialAmount, items, amount, balance)
-  //         );
-
-  //     props.navigation.navigate("ExpensesStack");
-
-  // }, [dispatch, category, intialAmount, items, amount, balance]
-  // );
-
-  const ExpenseOutput = ({ cat, intial, comm, amt, idnt, ttamt, bal }) => {
+  const ExpenseOutput = ({ cat, intial, comm, amt, idnt, ttamt, bal, idi }) => {
     const [showDetails, setShowDetails] = useState(false);
 
     return (
@@ -118,25 +98,13 @@ function ExpensesScreen({ route, navigation }) {
                 <View style={styles.items}>
                   <Text style={styles.text}>{comm}</Text>
                   <Text style={styles.text}>{amt}</Text>
-                  {/* <TouchableOpacity
-                                        style={styles.button}
-                                        onPress={()=>{}}
-                                    >
-                                        <Text style={{color: 'orange', fontWeight: 'bold', fontSize: 15}}>Done</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.button}
-                                        onPress={()=>{}}
-                                    >
-                                        <Text style={{color: 'red', fontWeight: 'bold', fontSize: 15}}>Delete</Text>
-                                    </TouchableOpacity> */}
                 </View>
                 <View style={styles.category}>
-                  <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: "row", paddingHorizontal: 10 }}>
                     <Text>Intial Amont: </Text>
                     <Text>{intial}</Text>
                   </View>
-                  <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: "row", paddingHorizontal: 10 }}>
                     <Text>Balance: </Text>
                     <Text>{bal}</Text>
                   </View>
@@ -158,7 +126,9 @@ function ExpensesScreen({ route, navigation }) {
                   style={styles.Button}
                   color="red"
                   title={"Delete"}
-                  onPress={() => {}}
+                  onPress={() => {
+                    dispatch(categoriesActions.deleteCategory(idi));
+                  }}
                 />
               </View>
             </View>
@@ -239,11 +209,13 @@ function ExpensesScreen({ route, navigation }) {
         <Text style={{ color: "white" }}>{selectedDay}</Text>
       </View>
       <FlatList
-        //style={styles.listItem}
+        onRefresh={loadedCategories}
+        refreshing={isRefreshing}
         data={categories}
         keyExtractor={(item, index) => item.id}
         renderItem={(itemData) => (
           <ExpenseOutput
+            idi={itemData.item.id}
             cat={itemData.item.category}
             intial={itemData.item.intialAmount}
             comm={itemData.item.items}
@@ -260,9 +232,6 @@ function ExpensesScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  listItem: {
     flex: 1,
   },
   contain: {

@@ -9,15 +9,18 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import { IndexPath, Layout, Select, SelectItem } from "@ui-kitten/components";
 import { useDispatch, useSelector } from "react-redux";
-//import Selects from '../components/Selector';
 import * as categoriesActions from "../store/actions/categories";
-//import Trial from '../components/trial';
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const AddExpensesScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+
   /////////////////////////////////////
   const [dateCat, setId] = useState("");
   const [date, setDate] = useState(new Date());
@@ -88,20 +91,32 @@ const AddExpensesScreen = (props) => {
     setBalance(intialAmount - +totalAmount);
   }, [addItem]);
 
-  const submitHandler = useCallback(() => {
-    dispatch(
-      categoriesActions.createCategory(
-        dateCat,
-        category,
-        intialAmount,
-        items,
-        amount,
-        balance,
-        totalAmount
-      )
-    );
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
 
-    props.navigation.navigate("ExpensesScreen");
+  const submitHandler = useCallback(async () => {
+    setError(null);
+    setIsLoading(true);
+    try {
+      await dispatch(
+        categoriesActions.createCategory(
+          dateCat,
+          category,
+          intialAmount,
+          items,
+          amount,
+          balance,
+          totalAmount
+        )
+      );
+      props.navigation.navigate("ExpensesScreen");
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
   }, [
     dispatch,
     dateCat,
@@ -113,6 +128,17 @@ const AddExpensesScreen = (props) => {
     totalAmount,
   ]);
 
+  if (isLoading) {
+    return (
+      <View style={styles.indicate}>
+        <ActivityIndicator
+          style={styles.indicate}
+          size="large"
+          color={"orange"}
+        />
+      </View>
+    );
+  }
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>
@@ -293,6 +319,11 @@ const styles = StyleSheet.create({
   },
   selectText: {
     color: "blue",
+  },
+  indicate: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

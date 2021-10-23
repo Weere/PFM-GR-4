@@ -5,9 +5,10 @@ export const SET_CATEGORIES = "SET_CATEGORIES";
 export const DELETE_CATEGORY = "DELETE_CATEGORY";
 
 export const deleteCategory = (categoryId) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories/${categoryId}.json`,
+      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories/${categoryId}.json?auth=${token}`,
       {
         method: "DELETE",
       }
@@ -21,7 +22,8 @@ export const deleteCategory = (categoryId) => {
 };
 
 export const fetchCategories = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     try {
       const response = await fetch(
         "https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories.json"
@@ -66,9 +68,12 @@ export const createCategory = (
   balance,
   totalAmount
 ) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
+    console.log(token);
     const response = await fetch(
-      "https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories.json",
+      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories.json?auth=${token}`,
       {
         method: "POST",
         headers: {
@@ -82,6 +87,7 @@ export const createCategory = (
           amount,
           balance,
           totalAmount,
+          ownerId: userId,
         }),
       }
     );
@@ -99,6 +105,7 @@ export const createCategory = (
         amount,
         balance,
         totalAmount,
+        ownerId: userId,
       },
     });
   };

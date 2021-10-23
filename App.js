@@ -1,21 +1,24 @@
-import React, {useState} from 'react';
-import { NavigationContainer } from '@react-navigation/native'; //** */
-import { combineReducers, createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import ReduxThunK from 'redux-thunk';//** */
-import * as Font from 'expo-font';
-import { AppLoading } from 'expo' //*** */
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native"; //** */
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import ReduxThunK from "redux-thunk"; //** */
+import * as Font from "expo-font";
+import { AppLoading } from "expo"; //*** */
 
-import * as eva from '@eva-design/eva'
+import * as eva from "@eva-design/eva";
 
-import MyDrawer from './navigation/MyNavigation';
-import userReducer from './store/reducers/user'
-import categoriesReducer from './store/reducers/categories'
-import { ApplicationProvider } from '@ui-kitten/components';
+import MyDrawer from "./navigation/MyNavigation";
+import userReducer from "./store/reducers/user";
+import authReducer from "./store/reducers/auth";
+import categoriesReducer from "./store/reducers/categories";
+import { ApplicationProvider } from "@ui-kitten/components";
+//import NavigationContain from "./navigation/NavigationContainer";
 
 const rootReducer = combineReducers({
-  users : userReducer,
-  category : categoriesReducer
+  users: userReducer,
+  category: categoriesReducer,
+  auth: authReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunK));
@@ -32,7 +35,7 @@ export default function App() {
 
   // if (!fontLoaded) {
   //   return (//** */
-  //     <AppLoading 
+  //     <AppLoading
   //       startAsync={fetchFonts}
   //       onFinish={()=> {
   //         setFontLoaded(true);
@@ -42,9 +45,12 @@ export default function App() {
   // }
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <Provider store={store} ><NavigationContainer>
-        <MyDrawer />
-      </NavigationContainer></ Provider >
+      <Provider store={store}>
+        <NavigationContainer>
+          {/* <NavigationContain /> */}
+          <MyDrawer />
+        </NavigationContainer>
+      </Provider>
     </ApplicationProvider>
   );
 }
