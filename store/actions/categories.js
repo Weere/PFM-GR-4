@@ -2,11 +2,23 @@ import Category from "../../models/categories";
 
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
 export const SET_CATEGORIES = "SET_CATEGORIES";
-//export const DELETE_CATEGORY = 'DELETE_CATEGORY';
+export const DELETE_CATEGORY = "DELETE_CATEGORY";
 
-// export const deleteProduct = productId => {
-//     return { type: DELETE_PRODUCT, pid: productId };
-//   };
+export const deleteCategory = (categoryId) => {
+  return async (dispatch) => {
+    const response = await fetch(
+      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories/${categoryId}.json`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
+    dispatch({ type: DELETE_CATEGORY, cid: categoryId });
+  };
+};
 
 export const fetchCategories = () => {
   return async (dispatch) => {

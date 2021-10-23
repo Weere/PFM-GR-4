@@ -1,4 +1,8 @@
-import { CREATE_CATEGORY, SET_CATEGORIES } from "../actions/categories";
+import {
+  CREATE_CATEGORY,
+  DELETE_CATEGORY,
+  SET_CATEGORIES,
+} from "../actions/categories";
 import Category from "../../models/categories";
 import CATEGORIES from "../../data/Categories";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -33,6 +37,13 @@ export default (state = intialState, action) => {
       return {
         ...state,
         avaialableCategories: state.avaialableCategories.concat(newCategory),
+      };
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        avaialableCategories: state.avaialableCategories.filter(
+          (category) => category.id !== action.cid
+        ),
       };
   }
   return state;
