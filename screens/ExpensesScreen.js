@@ -52,6 +52,19 @@ function ExpensesScreen({ route, navigation }) {
     });
   }, [dispatch, loadedCategories]);
 
+  // const deleteHandler = (id) => {
+  //   Alert.alert("Are you sure?", "Do you really want to delete this item?", [
+  //     { text: "No", style: "default" },
+  //     {
+  //       text: "Yes",
+  //       style: "destructive",
+  //       onPress: () => {
+  //         dispatch(categoriesActions.deleteCategory(id));
+  //       },
+  //     },
+  //   ]);
+  // };
+
   ///////////////////////////
   //const productId = props.navigation.getParam('productId');
 
@@ -127,6 +140,7 @@ function ExpensesScreen({ route, navigation }) {
                   color="red"
                   title={"Delete"}
                   onPress={() => {
+                    //deleteHandler;
                     dispatch(categoriesActions.deleteCategory(idi));
                   }}
                 />

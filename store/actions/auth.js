@@ -4,6 +4,7 @@ import User from "../../models/user";
 // export const SIGNUP = "SIGNUP";
 // export const LOGIN = "LOGIN";
 export const CREATE_USER = "CREATE_USER";
+export const UPDATE_USER = "UPDATE_USER";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
 
@@ -19,10 +20,56 @@ export const authenticate = (userId, token, expiryTime) => {
 export const createUser = (userName, telNo, date, income, occupation) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
+    const userId = getState().auth.userId;
+    console.log(token);
     const response = await fetch(
-      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/users.json?auth=${token}`,
+      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/users/${userId}.json?auth=${token}`,
       {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName,
+          telNo,
+          date,
+          income,
+          occupation,
+          ownerId: userId,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      let message = "something went wrong";
+      throw new Error(message);
+    }
+
+    const resData = await response.json();
+    console.log(resData);
+    dispatch({
+      type: CREATE_USER,
+      userData: {
+        id: resData.name,
+        userName,
+        telNo,
+        date,
+        income,
+        occupation,
+        ownerId: userId,
+      },
+    });
+  };
+};
+
+export const updateUser = (userName, telNo, date, income, occupation) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
+    const response = await fetch(
+      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/users/${userId}.json?auth=${token}`,
+      {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -37,16 +84,13 @@ export const createUser = (userName, telNo, date, income, occupation) => {
     );
 
     if (!response.ok) {
-      let message = "something went wrong";
-      throw new Error(message);
+      throw new Error("Something went wrong!");
     }
 
-    const resData = await response.json();
-
     dispatch({
-      type: CREATE_USER,
+      type: UPDATE_USER,
+      ownerId: userId,
       userData: {
-        id: resData.name,
         userName,
         telNo,
         date,
@@ -84,7 +128,7 @@ export const signup = (email, password) => {
     }
 
     const resData = await response.json();
-    console.log(resData);
+    //console.log(resData);
     dispatch(
       authenticate(
         resData.localId,
@@ -158,9 +202,13 @@ const clearLogoutTimer = () => {
 
 const setLogoutTimer = (expirationTime) => {
   return (dispatch) => {
-    timer = setTimeout(() => {
-      dispatch(logout());
-    }, expirationTime / 1000);
+    timer = setTimeout(
+      () => {
+        dispatch(logout());
+      },
+      expirationTime / 500
+      //expirationTime
+    );
   };
 };
 

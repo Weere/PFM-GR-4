@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Agenda, CalendarList } from 'react-native-calendars';
-import { Avatar, Card } from 'react-native-paper';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { Agenda, CalendarList } from "react-native-calendars";
+import { Avatar, Card } from "react-native-paper";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 // const timeToString = (time) => {
 //     const date = new Date(time);
@@ -18,9 +24,9 @@ const CalenderScreen = ({ navigation }) => {
     [selected]: {
       selected: true,
       disableTouchEvent: true,
-      selectedColor: '#5E60CE',
-      selectedTextColor: 'white'
-    }
+      selectedColor: "#5E60CE",
+      selectedTextColor: "white",
+    },
   };
   //const navigation = useNavigation();
   const onDayPress = ({ day, id }) => {
@@ -55,15 +61,28 @@ const CalenderScreen = ({ navigation }) => {
           hideExtraDays={false}
         />
         <View>
-          <Text style={{ paddingLeft: 10, paddingVertical: 10, fontWeight: 'bold', fontSize: 16 }}>Remainders</Text>
+          <Text
+            style={{
+              paddingLeft: 10,
+              paddingVertical: 10,
+              fontWeight: "bold",
+              fontSize: 16,
+            }}
+          >
+            Reminders
+          </Text>
         </View>
         <View>
-          <Text style={{ paddingLeft: 10, color: 'grey' }}>Bills</Text>
-          <Text style={{ paddingLeft: 10 }}>Sun Feb 22 2010 00:00:00 GMT+0300 (EAT)</Text>
+          <Text style={{ paddingLeft: 10, color: "grey" }}>Bills</Text>
+          <Text style={{ paddingLeft: 10 }}>
+            Mon Oct 18 2021 22:01:56 GMT+0300 (EAT)
+          </Text>
         </View>
         <View>
-          <Text style={{ paddingLeft: 10, color: 'grey' }}>Shopping</Text>
-          <Text style={{ paddingLeft: 10 }}>Sun Jan 01 2020 00:00:00 GMT+0300 (EAT)</Text>
+          <Text style={{ paddingLeft: 10, color: "grey" }}>Shopping</Text>
+          <Text style={{ paddingLeft: 10 }}>
+            Mon Oct 18 2021 00:00:00 GMT+0300 (EAT)
+          </Text>
         </View>
       </View>
     </ScrollView>
@@ -71,34 +90,34 @@ const CalenderScreen = ({ navigation }) => {
 };
 
 const theme = {
-  'stylesheet.calendar.header': {
+  "stylesheet.calendar.header": {
     dayHeader: {
-      fontWeight: '600',
-      color: '#48BFE3'
-    }
+      fontWeight: "600",
+      color: "#48BFE3",
+    },
   },
-  'stylesheet.day.basic': {
+  "stylesheet.day.basic": {
     today: {
-      borderColor: '#48BFE3',
-      borderWidth: 0.8
+      borderColor: "#48BFE3",
+      borderWidth: 0.8,
     },
     todayText: {
-      color: '#5390D9',
-      fontWeight: '800'
-    }
-  }
+      color: "#5390D9",
+      fontWeight: "800",
+    },
+  },
 };
 
 function renderCustomHeader(date) {
-  const header = date.toString('MMMM yyyy');
-  const [month, year] = header.split(' ');
+  const header = date.toString("MMMM yyyy");
+  const [month, year] = header.split(" ");
   const textStyle = {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingTop: 1,
     paddingBottom: 1,
-    color: '#5E60CE',
-    paddingRight: 5
+    color: "#5E60CE",
+    paddingRight: 5,
   };
 
   return (
@@ -109,24 +128,23 @@ function renderCustomHeader(date) {
   );
 }
 
-
 const styles = StyleSheet.create({
   calend: {
-    height: 350
+    height: 350,
   },
   header: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
   },
   month: {
-    marginLeft: 5
+    marginLeft: 5,
   },
   year: {
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 });
 
 export default CalenderScreen;

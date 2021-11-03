@@ -97,7 +97,7 @@ const AddExpensesScreen = (props) => {
     }
   }, [error]);
 
-  const submitHandler = useCallback(async () => {
+  const submitHandler = async () => {
     setError(null);
     setIsLoading(true);
     try {
@@ -113,20 +113,12 @@ const AddExpensesScreen = (props) => {
         )
       );
       props.navigation.navigate("ExpensesScreen");
+      setIsLoading(false);
     } catch (err) {
       setError(err.message);
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }, [
-    dispatch,
-    dateCat,
-    category,
-    intialAmount,
-    items,
-    amount,
-    balance,
-    totalAmount,
-  ]);
+  };
 
   if (isLoading) {
     return (

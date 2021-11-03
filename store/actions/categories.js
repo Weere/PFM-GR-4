@@ -7,8 +7,9 @@ export const DELETE_CATEGORY = "DELETE_CATEGORY";
 export const deleteCategory = (categoryId) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const response = await fetch(
-      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories/${categoryId}.json?auth=${token}`,
+      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories/${userId}/${categoryId}.json`,
       {
         method: "DELETE",
       }
@@ -23,11 +24,13 @@ export const deleteCategory = (categoryId) => {
 
 export const fetchCategories = () => {
   return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const userId = getState().auth.userId;
     try {
       const response = await fetch(
-        "https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories.json"
+        `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories/${userId}.json`
       );
+      //?auth=${token}
 
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -51,7 +54,14 @@ export const fetchCategories = () => {
         );
       }
 
-      dispatch({ type: SET_CATEGORIES, categories: loadedCategories });
+      dispatch({
+        type: SET_CATEGORIES,
+        categories: loadedCategories,
+        //userCategories: loadedCategories,
+        // userCategories: loadedCategories.filter(
+        //   (cat) => cat.ownerId === userId
+        // ),
+      });
     } catch (err) {
       // send to cstom analystics server
       throw err;
@@ -71,9 +81,9 @@ export const createCategory = (
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const userId = getState().auth.userId;
-    console.log(token);
+    console.log(userId);
     const response = await fetch(
-      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories.json?auth=${token}`,
+      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/categories/${userId}.json`,
       {
         method: "POST",
         headers: {
@@ -87,13 +97,18 @@ export const createCategory = (
           amount,
           balance,
           totalAmount,
-          ownerId: userId,
         }),
       }
     );
 
-    const resData = await response.json();
+    if (!response.ok) {
+      console.log(response);
+      let message = "something went wrong";
+      throw new Error(message);
+    }
 
+    const resData = await response.json();
+    console.log(resData);
     dispatch({
       type: CREATE_CATEGORY,
       categoryData: {
@@ -105,7 +120,6 @@ export const createCategory = (
         amount,
         balance,
         totalAmount,
-        ownerId: userId,
       },
     });
   };

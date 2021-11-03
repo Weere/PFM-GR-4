@@ -44,7 +44,7 @@ export default function App() {
   //   );//** */
   // }
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
+    <ApplicationProvider {...eva} theme={eva.dark}>
       <Provider store={store}>
         <NavigationContainer>
           {/* <NavigationContain /> */}

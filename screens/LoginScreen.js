@@ -71,12 +71,13 @@ const LoginScreen = ({ navigation }) => {
     setError(null);
     setIsLoading(true);
     try {
-      // if (!formState.formIsValid) {
-      //   Alert.alert("Wrong input!", "Please check the errors in the form.", [
-      //     { text: "Okay" },
-      //   ]);
-      //   return;
-      // }
+      if (!formState.formIsValid) {
+        Alert.alert("Wrong input!", "Please check the errors in the form.", [
+          { text: "Okay" },
+        ]);
+        setIsLoading(false);
+        return;
+      }
 
       await dispatch(
         authActions.login(
@@ -146,7 +147,7 @@ const LoginScreen = ({ navigation }) => {
           returnKeyType="next"
           onInputChange={inputChangeHandler}
           secureTextEntry
-          minLength={4}
+          minLength={8}
         />
         <View style={styles.ButtonContainer}>
           {isLoading ? (

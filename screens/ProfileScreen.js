@@ -14,7 +14,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Trial from "../components/trial";
 //import { dateselected } from '../components/trial';
 import InputCustom from "../components/InputCustom";
-import * as userActions from "../store/actions/user";
+import * as authActions from "../store/actions/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 
@@ -42,35 +43,51 @@ const formReducer = (state, action) => {
 };
 
 const ProfileScreen = ({ navigation }) => {
-  //const user = useSelector(state => state.users.availableUsers);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
+  // useEffect(() => {
+  //   const tryUser = async () => {
+  //     const userData = await AsyncStorage.getItem("userData");
+  //     const transformedData = JSON.parse(userData);
+  //     // console.log(transformedData);
+  //     const { token, userId, expiryDate } = transformedData;
+  //   };
+  //   tryUser();
+  // }, []);
+  /////
+  const editedUser = useSelector((state) => state.auth.userInformation);
   const dispatch = useDispatch();
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
-      userName: "",
-      telNo: "",
-      email: "",
+      userName: editedUser ? editedUser.userName : "",
+      telNo: editedUser ? editedUser.telNo : "",
+      email: editedUser ? editedUser.email : "",
       date: Trial.dateselected,
-      income: "",
-      occupation: "",
-      password: "",
+      income: editedUser ? editedUser.income : "",
+      occupation: editedUser ? editedUser.occupation : "",
+      password: editedUser ? editedUser.password : "",
     },
     inputValidities: {
-      userName: false,
-      telNo: false,
-      email: false,
+      userName: editedUser ? true : false,
+      telNo: editedUser ? true : false,
+      email: editedUser ? true : false,
       //date: false,
-      income: false,
-      occupation: false,
-      password: false,
+      income: editedUser ? true : false,
+      occupation: editedUser ? true : false,
+      password: editedUser ? true : false,
     },
-    formIsValid: false,
+    formIsValid: editedUser ? true : false,
   });
 
-  const submitHandler = useCallback(() => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
+  const submitHandler = async () => {
     if (formState.inputValues.password !== formState.inputValues.password1) {
       Alert.alert(
         "Password miss match",
@@ -85,21 +102,31 @@ const ProfileScreen = ({ navigation }) => {
       ]);
       return;
     }
-    console.log(formState);
-
-    dispatch(
-      userActions.createUser(
-        formState.inputValues.userName,
-        formState.inputValues.telNo,
-        formState.inputValues.date,
-        formState.inputValues.email,
-        formState.inputValues.income,
-        formState.inputValues.occupation,
-        formState.inputValues.password
-      )
-    );
-    navigation.goBack();
-  }, [dispatch, formState]);
+    //console.log(formState);
+    setError(null);
+    setIsLoading(true);
+    try {
+      // await dispatch(
+      //   authActions.updateEmailPassword(
+      //     formState.inputValues.email,
+      //     formState.inputValues.password
+      //   )
+      // );
+      await dispatch(
+        authActions.updateUser(
+          formState.inputValues.userName,
+          formState.inputValues.telNo,
+          formState.inputValues.date,
+          formState.inputValues.income,
+          formState.inputValues.occupation
+        )
+      );
+      navigation.navigate("HomeScreen");
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  };
 
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {
@@ -112,6 +139,14 @@ const ProfileScreen = ({ navigation }) => {
     },
     [dispatchFormState]
   );
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="orange" />
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -133,77 +168,68 @@ const ProfileScreen = ({ navigation }) => {
               id="userName"
               label="Name:"
               errorText="Please enter a valid name!"
-              placeholder="Your Name"
+              //placeholder="Your Name"
               keyboardType="default"
               autoCapitalize="words"
               returnKeyType="next"
               onInputChange={inputChangeHandler}
-              initialValue=""
+              initialValue={editedUser ? editedUser.userName : ""}
+              initiallyValid={!!editedUser}
               required
-              // initiallyValid = {false}
             />
             <InputCustom
               id="telNo"
               label="Phone Number:"
               errorText="Please enter a valid phone number!"
-              placeholder="256*******"
+              //placeholder="256*******"
               keyboardType="decimal-pad"
               returnKeyType="next"
               onInputChange={inputChangeHandler}
               num
-              initialValue=""
+              initialValue={editedUser ? editedUser.telNo : ""}
+              initiallyValid={!!editedUser}
               required
             />
             <InputCustom
               id="email"
               label="Email:"
               errorText="Please enter a valid email!"
-              placeholder="Your Email"
+              //placeholder="Your Email"
               keyboardType="email-address"
               autoCapitalize="none"
               returnKeyType="next"
               onInputChange={inputChangeHandler}
               email
-              initialValue=""
+              initialValue={editedUser ? editedUser.email : ""}
+              initiallyValid={!!editedUser}
               required
             />
-            {/* <InputCustom
-                                    id='date'
-                                    label='Date Of Birth:'
-                                    errorText='Please enter a valid date!'
-                                    placeholder="dd/mm/yyyy" 
-                                    keyboardType="default"
-                                    autoCapitalize='none'
-                                    returnKeyType='next'
-                                    onInputChange={inputChangeHandler}
-                                    editable={false}
-                                    initialValue=''
-                                    required
-                                />  */}
             <InputCustom
               id="income"
               label="Income:"
               errorText="Please enter a valid amount!"
-              placeholder="Monthly"
+              //placeholder="Monthly"
               keyboardType="decimal-pad"
               autoCapitalize="none"
               returnKeyType="next"
               onInputChange={inputChangeHandler}
               min={0.1}
               num
-              initialValue=""
+              initialValue={editedUser ? editedUser.income : ""}
+              initiallyValid={!!editedUser}
               required
             />
             <InputCustom
               id="occupation"
               label="Occupation:"
               errorText="Please enter a valid occupation!"
-              placeholder="Your occupation"
+              //placeholder="Your occupation"
               keyboardType="default"
               autoCapitalize="words"
               returnKeyType="next"
               onInputChange={inputChangeHandler}
-              initialValue=""
+              initialValue={editedUser ? editedUser.occupation : ""}
+              initiallyValid={!!editedUser}
               required
               // initiallyValid = {false}
             />
@@ -211,21 +237,22 @@ const ProfileScreen = ({ navigation }) => {
               id="password"
               label="Change password:"
               errorText="Please enter a valid password!"
-              placeholder="Password"
+              //placeholder="Password"
               keyboardType="default"
               autoCapitalize="none"
               returnKeyType="next"
               onInputChange={inputChangeHandler}
               secureTextEntry
               minLength={4}
-              initialValue=""
+              initialValue={editedUser ? editedUser.password : ""}
+              initiallyValid={!!editedUser}
               required
             />
             <InputCustom
               id="password1"
               label="Confirm Password:"
               errorText="Please enter a valid password!"
-              placeholder="Password"
+              //placeholder="Password"
               keyboardType="default"
               autoCapitalize="none"
               returnKeyType="next"
@@ -253,7 +280,7 @@ const ProfileScreen = ({ navigation }) => {
                   color="orange"
                   style={styles.button}
                   title="CANCEL"
-                  onPress={() => navigation.navigate("HomeScreen")}
+                  onPress={() => navigation.navigate("ProfileStack")}
                 />
               </View>
             </View>
@@ -294,6 +321,11 @@ const styles = StyleSheet.create({
   ButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

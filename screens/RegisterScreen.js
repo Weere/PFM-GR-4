@@ -17,7 +17,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import Trial from "../components/trial";
 //import { dateselected } from '../components/trial';
 import InputCustom from "../components/InputCustom";
-import * as userActions from "../store/actions/user";
 import * as authActions from "../store/actions/auth";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
@@ -81,7 +80,7 @@ const RegisterScreen = ({ navigation }) => {
       userName: "",
       telNo: "",
       email: "",
-      //date: dateselected,
+      date: dateselected,
       income: "",
       occupation: "",
       password: "",
@@ -90,7 +89,7 @@ const RegisterScreen = ({ navigation }) => {
       userName: false,
       telNo: false,
       email: false,
-      //date: false,
+      date: false,
       income: false,
       occupation: false,
       password: false,
@@ -107,6 +106,21 @@ const RegisterScreen = ({ navigation }) => {
   const signupHandler = async () => {
     setError(null);
     setIsLoading(true);
+    // if (formState.inputValues.password !== formState.inputValues.password1) {
+    //   Alert.alert(
+    //     "Password miss match",
+    //     "Please check your passwords if they are the same.",
+    //     [{ text: "Okay" }]
+    //   );
+    //   return;
+    // }
+
+    //// // if (!formState.formIsValid) {
+    //   Alert.alert("Wrong input!", "Please check the errors in the form.", [
+    //     { text: "Okay" },
+    //   ]);
+    //   return;
+    // }
     try {
       await dispatch(
         authActions.signup(
@@ -114,7 +128,18 @@ const RegisterScreen = ({ navigation }) => {
           formState.inputValues.password
         )
       );
+
+      await dispatch(
+        authActions.createUser(
+          formState.inputValues.userName,
+          formState.inputValues.telNo,
+          formState.inputValues.dateselected,
+          formState.inputValues.income,
+          formState.inputValues.occupation
+        )
+      );
       navigation.goBack();
+      setIsLoading(false);
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
@@ -172,9 +197,9 @@ const RegisterScreen = ({ navigation }) => {
           <ScrollView>
             <KeyboardAvoidingView
               behavior="padding"
-              keyboardVerticalOffset={50}
+              keyboardVerticalOffset={10}
             >
-              {/* <InputCustom
+              <InputCustom
                 id="userName"
                 label="Name:"
                 errorText="Please enter a valid name!"
@@ -198,7 +223,7 @@ const RegisterScreen = ({ navigation }) => {
                 num
                 initialValue=""
                 required
-              /> */}
+              />
               <InputCustom
                 id="email"
                 label="Email:"
@@ -212,7 +237,7 @@ const RegisterScreen = ({ navigation }) => {
                 initialValue=""
                 required
               />
-              {/* <InputCustom
+              <InputCustom
                 id="income"
                 label="Income:"
                 errorText="Please enter a valid amount!"
@@ -238,7 +263,7 @@ const RegisterScreen = ({ navigation }) => {
                 initialValue=""
                 //required
                 // initiallyValid = {false}
-              /> */}
+              />
               <InputCustom
                 id="password"
                 label="Password:"
@@ -249,11 +274,11 @@ const RegisterScreen = ({ navigation }) => {
                 returnKeyType="next"
                 onInputChange={inputChangeHandler}
                 secureTextEntry
-                minLength={4}
+                minLength={8}
                 initialValue=""
                 required
               />
-              {/* <InputCustom
+              <InputCustom
                 id="password1"
                 label="Confirm Password:"
                 errorText="Please enter a valid password!"
@@ -263,7 +288,7 @@ const RegisterScreen = ({ navigation }) => {
                 returnKeyType="next"
                 onInputChange={inputChangeHandler}
                 secureTextEntry
-                minLength={4}
+                minLength={8}
                 initialValue=""
                 required
               />
@@ -286,7 +311,7 @@ const RegisterScreen = ({ navigation }) => {
                 ) : (
                   <Text style={styles.textInput}>{dateselected}</Text>
                 )}
-              </View> */}
+              </View>
             </KeyboardAvoidingView>
             <View style={styles.ButtonContainer}>
               {isLoading ? (
@@ -294,7 +319,6 @@ const RegisterScreen = ({ navigation }) => {
               ) : (
                 <Button
                   //color='blue'
-                  styles={styles.Button}
                   title="SIGN UP"
                   onPress={signupHandler}
                 />
@@ -302,7 +326,6 @@ const RegisterScreen = ({ navigation }) => {
               <View style={styles.space} />
               <Button
                 color="orange"
-                styles={styles.Button}
                 title="SWITCH TO LOGIN"
                 onPress={() => navigation.navigate("LoginScreen")}
               />

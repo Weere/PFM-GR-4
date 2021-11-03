@@ -14,52 +14,54 @@ import { SliderBox } from "react-native-image-slider-box";
 
 const HomeScreen = (props) => {
   const images = [
-    require("../assets/photes/cloth.jpg"),
-    require("../assets/photes/derik.jpg"),
-    "https://placeimg.com/640/480/any",
-    require("../assets/photes/eric.jpg"),
-    require("../assets/photes/wray.jpg"),
+    require("../assets/photes/first.jpg"),
+    require("../assets/photes/one.jpg"),
+    // "https://placeimg.com/640/480/any",
+    require("../assets/photes/two.jpg"),
+    require("../assets/photes/three.jpg"),
+    require("../assets/photes/four.jpg"),
+    require("../assets/photes/last.jpg"),
   ];
 
   const pieData = [
     {
-      name: "Shopping",
-      population: 200,
+      name: "%  Shopping",
+      population: 21,
       color: "rgba(131, 167, 234, 1)",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
-      name: "Savings",
-      population: 90,
+      name: "%  Savings",
+      population: 9,
       color: "yellow",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
-      name: "Bills",
-      population: 120,
+      name: "%  Bills",
+      population: 12,
       color: "#F00",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
-      name: "Transport",
-      population: 80,
+      name: "%  Transport",
+      population: 8,
       color: "blue",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
-      name: "Others",
-      population: 200,
+      name: "%  Others",
+      population: 21,
       color: "purple",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
-      name: "Remaining",
-      population: 310,
+      name: "%  Remaining",
+      population: 29,
       color: "green",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
@@ -75,6 +77,7 @@ const HomeScreen = (props) => {
           <SliderBox
             images={images}
             sliderBoxHeight={255}
+            sliderBoxWidth="95%"
             imageComponent={Image}
             inactiveDotColor="#90A4AE"
             dotColor="#FFEE58"
@@ -106,7 +109,7 @@ const HomeScreen = (props) => {
           />
         </View>
         <View style={styles.fields}>
-          <Text style={styles.title}>Hey Wray Dray,</Text>
+          <Text style={styles.title}>Hey User,</Text>
           <Text style={styles.text}>This is your current standings</Text>
           <View style={styles.statuss}>
             <Text style={styles.title}>STATUS: </Text>
@@ -156,6 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     // backgroundColor: 'white',
     height: 255,
+    width: "95%",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "orange",
