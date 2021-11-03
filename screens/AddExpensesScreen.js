@@ -188,7 +188,7 @@ const AddExpensesScreen = (props) => {
           <View style={styles.inputControl}>
             <TextInput
               style={styles.input}
-              placeholder="Intial Amount"
+              placeholder="Initial Amount"
               onChangeText={(text) => setIntiatalAmount(text)}
               keyboardType="decimal-pad"
               value={String(intialAmount)}
@@ -210,7 +210,7 @@ const AddExpensesScreen = (props) => {
             />
             <TextInput
               style={styles.input}
-              placeholder="Enter amout"
+              placeholder="Enter amount"
               onChangeText={(text) => setAmountEntered(text)}
               keyboardType="number-pad"
               value={String(amountEntered)}

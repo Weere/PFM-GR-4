@@ -1,15 +1,59 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import User from "../../models/user";
 
 // export const SIGNUP = "SIGNUP";
 // export const LOGIN = "LOGIN";
+export const CREATE_USER = "CREATE_USER";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
+
 let timer;
 
 export const authenticate = (userId, token, expiryTime) => {
   return (dispatch) => {
     dispatch(setLogoutTimer(expiryTime));
     dispatch({ type: AUTHENTICATE, userId: userId, token: token });
+  };
+};
+
+export const createUser = (userName, telNo, date, income, occupation) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const response = await fetch(
+      `https://managemyfinance-1e046-default-rtdb.firebaseio.com/users.json?auth=${token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName,
+          telNo,
+          date,
+          income,
+          occupation,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      let message = "something went wrong";
+      throw new Error(message);
+    }
+
+    const resData = await response.json();
+
+    dispatch({
+      type: CREATE_USER,
+      userData: {
+        id: resData.name,
+        userName,
+        telNo,
+        date,
+        income,
+        occupation,
+      },
+    });
   };
 };
 
@@ -85,7 +129,7 @@ export const login = (email, password) => {
     }
 
     const resData = await response.json();
-    console.log(resData);
+
     dispatch(
       authenticate(
         resData.localId,

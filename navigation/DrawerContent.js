@@ -33,14 +33,11 @@ export function DrawerContent(props) {
                                 }}
                                 size={50}
                             /> */}
-              <Avatar.Image
+              {/* <Avatar.Image
                 source={require("../assets/photes/derik.jpg")}
                 size={50}
-              />
-              {/* <Avatar.Text
-                                label='ED'
-                                size={50}
-                            /> */}
+              /> */}
+              <Avatar.Text label="ED" size={50} />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
                 <Title style={styles.title}>Edwin Dray</Title>
                 <Caption style={styles.caption}>@wraydray</Caption>
@@ -61,7 +58,7 @@ export function DrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="bookmark" color={"orange"} size={35} />
               )}
-              label="Calender"
+              label="Calendar"
               onPress={() => {
                 props.navigation.navigate("CalenderTab");
               }}
@@ -79,7 +76,7 @@ export function DrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="book-outline" color={"orange"} size={35} />
               )}
-              label="Transaction Statment"
+              label="Transaction Statement"
               onPress={() => {
                 props.navigation.navigate("TransactionStack");
               }}

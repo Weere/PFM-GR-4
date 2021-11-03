@@ -363,7 +363,7 @@ const CalenderStack = ({ navigation }) => {
         component={CalenderScreen}
         options={{
           headerTitleAlign: "center",
-          title: "Calender",
+          title: "Calendar",
           headerLeft: () => (
             <Icon.Button
               name="md-menu"
